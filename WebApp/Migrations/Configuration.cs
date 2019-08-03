@@ -52,16 +52,17 @@ namespace WebApp.Migrations
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
+            
             if (!context.Users.Any(u => u.UserName == "admin@yahoo.com"))
             {
-                var user = new ApplicationUser() { Id = "admin", UserName = "admin@yahoo.com", Email = "admin@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Admin123!") };
+                var user = new ApplicationUser() { Id = "admin", UserName = "admin@yahoo.com", Email = "admin@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Admin123!"), Tip = "student" };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Admin");
             }
 
             if (!context.Users.Any(u => u.UserName == "appu@yahoo.com"))
             { 
-                var user = new ApplicationUser() { Id = "appu", UserName = "appu@yahoo.com", Email = "appu@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!") };
+                var user = new ApplicationUser() { Id = "appu", UserName = "appu@yahoo.com", Email = "appu@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!"), Tip = "student" };
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "AppUser");
             }
