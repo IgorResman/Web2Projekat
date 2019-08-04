@@ -597,5 +597,3 @@ C:\Users\MIJAT\Desktop\angular\Jgsp-Web2\WebApp\bin\Microsoft.CodeDom.Providers.
 C:\Users\MIJAT\Desktop\angular\Jgsp-Web2\WebApp\obj\Debug\WebApp.csproj.CopyComplete
 C:\Users\MIJAT\Desktop\angular\Jgsp-Web2\WebApp\obj\Debug\WebApp.Migrations.Mig1.resources
 C:\Users\MIJAT\Desktop\angular\Jgsp-Web2\WebApp\obj\Debug\WebApp.Migrations.Mig2.resources
-D:\PUGS\PROJEKAT_PREVARA\Jgsp-Web2-f2f7047e23bb96a8849898dff9dedf2282343e52\Jgsp-Web2-f2f7047e23bb96a8849898dff9dedf2282343e52\WebApp\obj\Debug\WebApp.dll
-D:\PUGS\PROJEKAT_PREVARA\Jgsp-Web2-f2f7047e23bb96a8849898dff9dedf2282343e52\Jgsp-Web2-f2f7047e23bb96a8849898dff9dedf2282343e52\WebApp\obj\Debug\WebApp.pdb
