@@ -3,6 +3,7 @@ namespace WebApp.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -60,6 +61,27 @@ namespace WebApp.Migrations
                 userManager.AddToRole(user.Id, "Admin");
             }
 
+            //if (!context.Karte.Any(u => u.IdKarte == 1))
+            //{
+            //    Karta k = new Karta() { IdKarte = 1, Tip = TipKarte.Godisnja };
+            //    Karta k1 = new Karta() { IdKarte = 2, Tip = TipKarte.Dnevna };
+            //    Karta k2 = new Karta() { IdKarte = 3, Tip = TipKarte.Mesecna };
+            //    Karta k3 = new Karta() { IdKarte = 4, Tip = TipKarte.Vremenska };
+            //    Cenovnik c = new Cenovnik() { IdCenovnik = 1, VaziOd = DateTime.Now, VaziDo = DateTime.Now .AddDays(30) };
+            //    CenaKarte cenak = new CenaKarte() { Karta = k, Cenovnik = c};
+            //    CenaKarte cenak1 = new CenaKarte() { Karta = k2, Cenovnik = c };
+            //    CenaKarte cenak2 = new CenaKarte() { Karta = k3, Cenovnik = c };
+            //    context.Karte.Add(k);
+            //    context.Karte.Add(k1);
+            //    context.Karte.Add(k2);
+            //    context.Karte.Add(k3);
+            //    context.Cenovnici.Add(c);
+            //    context.CeneKarti.Add(cenak);
+            //    context.CeneKarti.Add(cenak1);
+            //    context.CeneKarti.Add(cenak2);
+            //    context.SaveChanges();
+            //}
+
             if (!context.Users.Any(u => u.UserName == "appu@yahoo.com"))
             { 
                 var user = new ApplicationUser() { Id = "appu", UserName = "appu@yahoo.com", Email = "appu@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!"), Tip = "student", Name = "dasdas", Surname = "dasdasda" };
@@ -69,13 +91,41 @@ namespace WebApp.Migrations
             if (!context.RedoviVoznje.Any(u => u.Linija.RedniBroj == 1))
             {
                 RedVoznje red = new RedVoznje();
+                RedVoznje red2 = new RedVoznje();
+           
+          
                 red.Id = 1;
+                red2.Id = 2;
+               
+              
                 Linija lin = new Linija();
+                Linija lin2 = new Linija();
+                Linija lin3 = new Linija();
+                lin.Id = 1;
                 lin.RedniBroj = 1;
-                lin.Polasci = "19:00 20:21";
-                red.Linija = lin;
-                context.Linije.Add(lin);
+                red.DanUNedelji = "Nedelja";
+                red.Polasci = "11:00 12:21";
+                red2.DanUNedelji = "Subota";
+                red2.Polasci = "12:00 15:21";
+
+                lin.RedoviVoznje = new List<RedVoznje>();
+
+                lin2.RedoviVoznje = new List<RedVoznje>();
+                lin3.RedoviVoznje = new List<RedVoznje>();
+                lin.RedoviVoznje.Add(red);
+                lin.RedoviVoznje.Add(red2);
+                lin2.RedniBroj = 2;
+                lin2.Id = 2;
+               
+                lin3.RedniBroj = 3;
+                lin3.Id = 3;
+
                 context.RedoviVoznje.Add(red);
+                context.RedoviVoznje.Add(red2);
+                context.Linije.Add(lin);
+                context.Linije.Add(lin2);
+                context.Linije.Add(lin3);
+              
                 context.SaveChanges();
             }
         }
