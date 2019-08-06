@@ -18,7 +18,6 @@ div.main{
   width:100%;
 }
 
-
 [class*="fontawesome-"]:before {
   font-family: 'FontAwesome', sans-serif;
 }

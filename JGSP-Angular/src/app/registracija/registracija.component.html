@@ -53,9 +53,17 @@ Datum rodjenja:<input type="date" formControlName="date" required> <br>
             </p><br>
             <p><span class="fa fa-user"></span><input Placeholder="Date" type="date" formControlName="date" required>
             </p><br>
+            <p>
+              <select [(ngModel)]="tip">
+                <option *ngFor="let t of tipovi">
+                  {{t}}
+                </option>
+              </select>
+              <br>
+            </p>
             <div>
 
-              <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit"
+              <span style="width:100%; text-align:right;  display: inline-block;"><input type="submit"
                   value="Register"></span>
             </div>
 

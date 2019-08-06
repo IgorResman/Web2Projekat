@@ -11,9 +11,10 @@ export class TokenInterceptor implements HttpInterceptor{
         console.log(req);
 
         if(jwt){
+            
             req = req.clone({
                 setHeaders:{
-                    "Autorization": "Bearer " + jwt
+                    "Authorization": "Bearer " + jwt
                 }
             });
         }
