@@ -1,86 +1,75 @@
-<!-- <form [formGroup]="registacijaForm" (ngSubmit)="onSubmit()">
-Ime:<input type="text" formControlName="name" required> <br>
-Prezime:<input type="text" formControlName="surname" required><br>
-Korisnicko ime:<input type="text" formControlName="username" required> <br>  
-Sifra:<input type="password" formControlName="password" required> <br>
-Sifra potvrda:<input type="password" formControlName="confirmPassword" required> <br>
-E-mail:<input type="email" formControlName="email" required> <br>
-Datum rodjenja:<input type="date" formControlName="date" required> <br>
-<button type="submit">Submit</button>
-</form> -->
+<html>
 
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
 
-<!-- <form #f="ngForm" (submit)="login(f.value, f)">
-  <input name="username" ngModel/>
-  <input name="password" type="password" ngModel/>
-  <input type="submit">
-</form> -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!-- Include the above in your HEAD tag -->
-
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<div class="main">
-
-
-  <div class="container">
-
-    <div class="middle">
-      <div id="login">
-
-        <form [formGroup]="registacijaForm" (ngSubmit)="onSubmit()">
-
-          <fieldset class="clearfix">
-
-            <p><span class="fa fa-user"></span><input Placeholder="Name" type="text" formControlName="name" required>
-            </p> <!-- JS because of IE support; better: placeholder="Username" -->
-            <p><span class="fa fa-user"></span><input Placeholder="Surname" type="text" formControlName="surname"
-                required></p>
-            <p><span class="fa fa-user"></span><input Placeholder="Username" type="text" formControlName="username"
-                required></p>
-            <p><span class="fa fa-lock"></span><input Placeholder="Password" type="password" formControlName="password"
-                required></p>
-            <p><span class="fa fa-lock"></span><input Placeholder="Password" type="password"
-                formControlName="confirmPassword" required></p>
-            <p><span class="fa fa-user"></span><input Placeholder="Email" type="email" formControlName="email" required>
-            </p><br>
-            <p><span class="fa fa-user"></span><input Placeholder="Date" type="date" formControlName="date" required>
-            </p><br>
-            <p>
-              <select [(ngModel)]="tip">
-                <option *ngFor="let t of tipovi">
-                  {{t}}
-                </option>
-              </select>
-              <br>
-            </p>
-            <div>
-
-              <span style="width:100%; text-align:right;  display: inline-block;"><input type="submit"
-                  value="Register"></span>
-            </div>
-
-          </fieldset>
-          <div class="clearfix"></div>
-        </form>
-
-        <div class="clearfix"></div>
-
-      </div> <!-- end login -->
-      <div class="logo"> &nbsp;<i> JGSP &nbsp;&nbsp;Novi Sad</i>
-
-        <div class="clearfix"></div>
-      </div>
-
+<body>
+  <br><br>
+  <div class="main">
+    <div class="container">
+      <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+          <h4 class="card-title mt-3 text-center">Create Account</h4>
+          <form [formGroup]="registacijaForm" (ngSubmit)="onSubmit()">
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+              </div>
+              <input class="form-control" placeholder="Name" type="text" formControlName="name" required>
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+              </div>
+              <input class="form-control" placeholder="Surname" type="text" formControlName="surname" required>
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+              </div>
+              <input class="form-control" placeholder="Username" type="text" formControlName="username" required>
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+              </div>
+              <input class="form-control" placeholder="Email address" type="email" formControlName="email" required>
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+              </div>
+              <input class="form-control" placeholder="Password" type="password" formControlName="password" required>
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+              </div>
+              <input class="form-control" placeholder="Confirm password" type="password"
+                formControlName="confirmPassword" required>
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-calendar"></i> </span>
+              </div>
+              <input class="form-control" placeholder="Date" type="date" formControlName="date" required>
+            </div> <!-- form-group// -->
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+            </div> <!-- form-group// -->
+            <p class="text-center">Have an account? <a routerLink="/login">Log In</a> </p>
+          </form>
+        </article>
+      </div> <!-- card.// -->
     </div>
-
+    <!--container end.//-->
   </div>
+</body>
 
-</div>
+</html>

@@ -67,7 +67,7 @@ namespace WebApp.Migrations
             { 
                 var user = new ApplicationUser() { Id = "appu", UserName = "appu@yahoo.com", Email = "appu@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!"), Tip = "student", Name = "dasdas", Surname = "dasdasda" };
                 userManager.Create(user);
-                userManager.AddToRole(user.Id, "AppUser");
+                userManager.AddToRole(user.Id, "Controller");
             }
             if (!context.RedoviVoznje.Any(u => u.Linija.RedniBroj == 1))
             {

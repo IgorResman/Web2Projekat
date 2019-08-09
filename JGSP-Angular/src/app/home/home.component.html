@@ -3,11 +3,12 @@
 </p>
 <div *ngIf="!jwtIsUndefined(); else logOut">
   <a routerLink="/login">Login</a>
+  <br>
   <a routerLink="/registracija">Registracija</a>
 </div>
 <ng-template #logOut>
   <a (click)="LogOut()">LogOut</a>
-<br>
+  <br>
 </ng-template>
 <a routerLink="/redVoznje">redVoznje</a>
 <br>

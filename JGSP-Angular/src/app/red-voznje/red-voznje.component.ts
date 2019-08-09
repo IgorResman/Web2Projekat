@@ -17,28 +17,33 @@ export class RedVoznjeComponent implements OnInit {
   linija: linja = new linja();
   klasa: klasaPodaci = new klasaPodaci();
   selectedLine: number;
-  linijeZaView : number[];
-  dani: string[]=["Radni","Subota","Nedelja"];
+  linijeZaView: number[];
+  dani: string[] = ["Radni", "Subota", "Nedelja"];
   dan: string;
 
   ngOnInit() {
-      
-  }
-
-
-  OnGetLinije(){
-    this.http.GetLinije().subscribe((linijesabekenda)=>{
+    this.selectedLine = 1;
+    this.http.GetLinije().subscribe((linijesabekenda) => {
       this.linijeZaView = linijesabekenda;
       err => console.log(err);
     }
     );
-}
-  OnGetPolasci(){
-      this.http.GetPolasci(this.selectedLine, this.dan).subscribe((raspored1)=>{
-        this.ras.polasci = raspored1;
-        err => console.log(err);
-      }
-      );
   }
-  
+
+
+  OnGetLinije() {
+    this.http.GetLinije().subscribe((linijesabekenda) => {
+      this.linijeZaView = linijesabekenda;
+      err => console.log(err);
+    }
+    );
+  }
+  OnGetPolasci() {
+    this.http.GetPolasci(this.selectedLine, this.dan).subscribe((raspored1) => {
+      this.ras.polasci = raspored1;
+      err => console.log(err);
+    }
+    );
+  }
+
 }

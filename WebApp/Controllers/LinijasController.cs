@@ -20,7 +20,7 @@ namespace WebApp.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public IUnitOfWork Db { get; set; }
-       
+
         public LinijasController(IUnitOfWork db)
         {
             Db = db;
@@ -29,11 +29,10 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public List<int> GetLinije()
         {
-            IQueryable<Linija> linije = Db.Linija.GetAll().AsQueryable();
+            List<Linija> linije = Db.Linija.GetAll().AsQueryable().ToList();
             List<int> BrojeviLinija = new List<int>();
-            foreach (Linija l in linije) {
-                BrojeviLinija.Add(l.RedniBroj);
-            }
+            linije.ForEach(x => { BrojeviLinija.Add(x.RedniBroj); });
+
             return BrojeviLinija;
         }
 
@@ -43,29 +42,31 @@ namespace WebApp.Controllers
         [Route("GetLinija/{id}/{dan}")]
         public IHttpActionResult GetLinija(int id, string dan)
         {
-            IQueryable<Linija> linije = Db.Linija.GetAll().AsQueryable();
-           
-            string retvalue = "n";
-          foreach(Linija l in linije)
+            List<Linija> linije = Db.Linija.GetAll().AsQueryable().ToList();
+            string retVal = String.Empty;
+
+            linije.ForEach(x =>
             {
-                if(l.RedniBroj==id)
+                if (x.RedniBroj.Equals(id))
                 {
-                    foreach (RedVoznje red in l.RedoviVoznje)
+                    List<RedVoznje> redoviVoznje = x.RedoviVoznje.ToList();
+                    redoviVoznje.ForEach(y =>
                     {
-                        if (red.DanUNedelji == dan)
+                        if (y.DanUNedelji.Equals(dan))
                         {
-                            retvalue = red.Polasci;
+                            retVal = y.Polasci;
                         }
-                    }
+                    });
                 }
-            }
-          if(retvalue == "n")
+            });
+
+            if (!String.IsNullOrEmpty(retVal))
+            {
+                return Ok(retVal);
+            } else
             {
                 return NotFound();
             }
-         
-        
-            return Ok(retvalue);
         }
 
         // PUT: api/Linijas/5

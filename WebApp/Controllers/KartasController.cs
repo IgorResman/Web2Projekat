@@ -36,31 +36,26 @@ namespace WebApp.Controllers
         // GET: api/Kartas/5
         [AllowAnonymous]
         [ResponseType(typeof(float))]
-        [Route("GetKarta/{tip}")]
+        [Route("GetKartaCena/{tip}")]
         public IHttpActionResult GetKartaCena(string tip)
         {
             List<Karta> karte = Db.Karta.GetAll().ToList();
-            CenaKarte c = new CenaKarte();
-            float cena = 0;
-            foreach(Karta k in karte)
-            {
-                if(tip == k.Tip)
-                {
-                    c= Db.CenaKarte.Get(k.CenaKarteId);
-                    cena = c.Cena;
-                }
-            }
+            
+            Karta k = karte.Find(x => x.Tip == tip);
 
-            if (karte == null)
+            if (karte == null || karte.Count.Equals(0) || k == null)
             {
                 return NotFound();
             }
 
-            return Ok(cena);
+            CenaKarte cenaKarte = Db.CenaKarte.Get(k.CenaKarteId);
+
+            return Ok(cenaKarte.Cena);
         }
-        [Authorize(Roles = "Admin")]
+
+        //[Authorize(Roles = "Admin")]
         [ResponseType(typeof(string))]
-        [Route("GetKartaKupi2/{tipKarte}/{tipKorisnika}/{user}")]
+        [Route("GetKarta/{tipKarte}/{tipKorisnika}/{user}")]
         public IHttpActionResult GetKarta(string tipKarte, string tipKorisnika, string user)
         {
             var userStore = new UserStore<ApplicationUser>(db);
@@ -70,30 +65,32 @@ namespace WebApp.Controllers
             var id = User.Identity.GetUserId();
 
             float cena;
-            string povratna = "";
-            foreach (CenaKarte ck in ceneKarata)
+            string retVal = "";
+
+            ceneKarata.ForEach(x =>
             {
-                if (ck.TipKarte == tipKarte && ck.TipKupca == tipKorisnika)
+                bool found = false;
+                if (x.TipKarte == tipKarte && x.TipKupca == tipKorisnika && !found)
                 {
                     Karta novaKarta = new Karta();
-                    novaKarta.CenaKarte = ck;
+                    novaKarta.CenaKarte = x;
                     novaKarta.Tip = tipKarte;
                     novaKarta.ApplicationUserId = User.Identity.GetUserId();
                     novaKarta.VaziDo = DateTime.UtcNow;
                     novaKarta.ApplicationUser = userManager.FindById(id);
                     novaKarta.ApplicationUserId = id;
-                    cena = ck.Cena;
-                    povratna = "Uspesno ste kupili " + tipKarte + "-u" + " kartu, po ceni od " + cena.ToString() + " rsd, hvala vam, vas gsp!";
-                    break;                    
+                    cena = x.Cena;
+                    retVal = "Uspesno ste kupili " + tipKarte + "-u" + " kartu, po ceni od " + cena.ToString() + "RSD, hvala Vam, vas JGSP!";
+                    found = true;
                 }
-            }
+            });
 
             if (ceneKarata == null)
             {
                 return NotFound();
             }
 
-            return Ok(povratna);
+            return Ok(retVal);
         }
 
         // PUT: api/Kartas/5

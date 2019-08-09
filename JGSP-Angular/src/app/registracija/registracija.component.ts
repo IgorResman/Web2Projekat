@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./registracija.component.css']
 })
 export class RegistracijaComponent implements OnInit {
-  
+
   registacijaForm = this.fb.group({
     name: ['', Validators.required],
     surname: ['', Validators.required],
@@ -24,17 +24,18 @@ export class RegistracijaComponent implements OnInit {
   });
 
   constructor(private http: AuthHttpService, private fb: FormBuilder, private router: Router) { }
-  tipovi: string[] = ["Admin", "Studemt", "Penzioner", "Obican"];
+  tipovi: string[] = ["Admin", "Student", "Penzioner", "Obican"];
   tip: string;
   ngOnInit() {
   }
 
-  onSubmit(){
+  onSubmit() {
+    console.log('Upaoooo');
     let regModel: RegUser = this.registacijaForm.value;
     this.http.reg(regModel).subscribe(
-      
-    )
-    
+
+    );
+
     this.router.navigate(["/login"])
     //form.reset();
   }
