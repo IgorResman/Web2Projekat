@@ -1,0 +1,46 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- Include the above in your HEAD tag -->
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+
+  <!-- Kreiramo mapu -->
+  <agm-map [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18" (mapClick)="placeMarker($event)">  
+
+    <agm-marker [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [title]="markerInfo.title"
+    [label]="markerInfo.label" [iconUrl]="markerInfo.iconUrl">
+
+      <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
+      <agm-info-window [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" >
+
+        <!-- U info-window stavljamo html -->
+        <span style="font-size: 16px;font-family:'Times New Roman'">Fakultet tehničkih nauka</span>
+        <br/>
+        <span style="font-family:'Times New Roman'; color:gray;"><strong>Jugodrvo</strong></span>
+        <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span>
+        <a [href]="markerInfo.link">See the site.</a>
+      </agm-info-window>
+
+    </agm-marker>
+
+    <agm-polyline [strokeColor]="polyline.color">
+         <agm-polyline-point *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude">
+         </agm-polyline-point>
+    </agm-polyline>
+
+    <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
+    </agm-marker>
+
+    <agm-marker *ngFor="let point of polylineMoje.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polylineMoje.icon">
+    </agm-marker>
+  </agm-map>
+  <button id="ButtonsHomePage" (click)="ShowStanica()">Kordinate</button>
+  <button id="ButtonsHomePage" (click)="HideStanica()">Ukloni</button>
+

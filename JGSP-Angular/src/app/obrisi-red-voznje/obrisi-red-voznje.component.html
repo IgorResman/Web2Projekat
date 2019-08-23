@@ -1,0 +1,18 @@
+<div class="main">
+  <div class="container">
+    <div class="middle">
+      <div id="login">
+        <form [formGroup]="RedGroup" (ngSubmit)="Delete()">
+          <p class="paragraf_text">Unesi Id Reda Voznje:</p><br><input type="number" formControlName="id" required><br>
+          <br><button id="ButtonsHomePage" (click)="Delete()">Obrisi red voznje! </button>
+        </form>
+        <br>
+
+      </div>
+      <div class="logo"> JGSP
+        <div class="clearfix"></div>
+        <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
+      </div>
+    </div>
+  </div>
+</div>

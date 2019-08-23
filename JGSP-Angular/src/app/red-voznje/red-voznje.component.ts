@@ -3,6 +3,7 @@ import { AuthHttpService } from 'src/app/services/auth.service';
 import { error } from 'util';
 import { raspored, klasaPodaci } from 'src/app/osoba';
 import { linja } from 'src/app/osoba';
+import { LinijaService } from '../services/linija.service';
 
 @Component({
   selector: 'app-red-voznje',
@@ -12,7 +13,7 @@ import { linja } from 'src/app/osoba';
 export class RedVoznjeComponent implements OnInit {
 
   polasci: string;
-  constructor(private http: AuthHttpService) { }
+  constructor(private linijaService: LinijaService) { }
   ras: raspored = new raspored();
   linija: linja = new linja();
   klasa: klasaPodaci = new klasaPodaci();
@@ -20,30 +21,31 @@ export class RedVoznjeComponent implements OnInit {
   linijeZaView: number[];
   dani: string[] = ["Radni", "Subota", "Nedelja"];
   dan: string;
+  text: string = "Klisa";
 
   ngOnInit() {
-    this.selectedLine = 1;
-    this.http.GetLinije().subscribe((linijesabekenda) => {
+    this.linijaService.GetLines().subscribe((linijesabekenda) => {
       this.linijeZaView = linijesabekenda;
       err => console.log(err);
-    }
-    );
+    });
   }
 
 
-  OnGetLinije() {
-    this.http.GetLinije().subscribe((linijesabekenda) => {
+  OnGetLines() {
+    this.linijaService.GetLines().subscribe((linijesabekenda) => {
       this.linijeZaView = linijesabekenda;
       err => console.log(err);
-    }
-    );
+    });
   }
-  OnGetPolasci() {
-    this.http.GetPolasci(this.selectedLine, this.dan).subscribe((raspored1) => {
+
+  OnGetDepartures() {
+    this.linijaService.GetDepartures(this.selectedLine, this.dan).subscribe((raspored1) => {
       this.ras.polasci = raspored1;
       err => console.log(err);
-    }
-    );
+    });
   }
 
+  ParseJSON() {
+    this.linijaService.ParseJSON(this.selectedLine, this.dan).subscribe();
+  }
 }

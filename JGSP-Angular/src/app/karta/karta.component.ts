@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpService } from 'src/app/services/auth.service';
+import { KartaService } from '../services/karta.service';
 //import { user } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,29 +10,22 @@ import { AuthHttpService } from 'src/app/services/auth.service';
 })
 export class KartaComponent implements OnInit {
 
-  constructor(private http: AuthHttpService) { }
+  constructor(private kartaService: KartaService) { }
   tipovi: string[] = ["Dnevna", "Mesecna", "Godisnja", "Vremenska"];
+  cenaKarte: number = 15;
   tip: string;
-  cena1: number;
-  vaziDo1: string;
+  tipPutnika: string;
+  cena: number;
+  vaziDo: string;
   user: string;
-  ngOnInit() {
-  }
+  mejl: string;
+  ngOnInit() { }
 
-  CenaKarte() {
-    this.http.GetCenaKarte(this.tip).subscribe((cena) => {
-      this.cena1 = cena;
-      err => console.log(err);
-    });
-  }
 
-  KupiKartu() {
-    // let jwtData = localStorage.jwt.split('.')[1]
-    // let decodedJwtJsonData = window.atob(jwtData)
-    // let decodedJwtData = JSON.parse(decodedJwtJsonData)
-    // this.user = decodedJwtData.nameid;
-    this.http.GetKupiKartu(this.tip, 'Student', 'admin').subscribe((vaziDo) => {
-      this.vaziDo1 = vaziDo;
+  BuyTicket() {
+    this.kartaService.GetBuyTicket(this.tip, "prazno").subscribe((vaziDo) => {
+      this.vaziDo = vaziDo;
+      alert(vaziDo);
       err => console.log(err);
     });
 

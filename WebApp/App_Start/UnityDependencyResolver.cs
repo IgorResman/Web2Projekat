@@ -8,6 +8,7 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
+using WebApp.Hubs;
 using WebApp.Models;
 using WebApp.Persistence;
 using WebApp.Persistence.Repository;
@@ -76,7 +77,9 @@ namespace WebApp.App_Start
             container.RegisterType<IRepositoryStanica, StanicaRepository>();
             container.RegisterType<IRepositoryRedVoznje, RedVoznjeRepository>();
             container.RegisterType<IRepositoryCenovnik, CenovnikRepository>();
-      
+            container.RegisterType<IRepositorySlika, SlikaRepository>();
+            container.RegisterType<LokacijaVozilaHub>();
+
 
             //container.RegisterType<IProductRepositry, ProductRepository>();
             container.RegisterType<IUnitOfWork, DemoUnitOfWork>();

@@ -3,6 +3,7 @@ import { User } from '../osoba';
 import { AuthHttpService } from '../services/auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,19 +12,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private http: AuthHttpService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  login(user: User, form: NgForm) {
-    let l = this.http.logIn(user.username, user.password);
+  Login(user: User, form: NgForm) {
+    let l = this.userService.LogIn(user.username, user.password);
     form.reset();
-
-    if (l) {
-      this.router.navigate(["/home"]);
-    }
+    this.router.navigate(["/home"]);
   }
-
-
 }

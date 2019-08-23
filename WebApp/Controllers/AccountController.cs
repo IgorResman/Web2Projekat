@@ -17,6 +17,9 @@ using WebApp.Models;
 using WebApp.Providers;
 using WebApp.Results;
 using WebApp.Persistence.UnitOfWork;
+using System.Web.Http.Description;
+using System.IO;
+using System.Data.Entity;
 
 namespace WebApp.Controllers
 {
@@ -34,10 +37,11 @@ namespace WebApp.Controllers
         }
 
         public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IUnitOfWork db)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            Db = db;
         }
 
         public ApplicationUserManager UserManager
@@ -155,7 +159,7 @@ namespace WebApp.Controllers
 
             return Ok();
         }
-
+   
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
@@ -331,7 +335,8 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Tip = "student", Name= model.Name, Surname = model.Surname, Datum = model.Date, Password= model.Password, ConfirmPassword= model.ConfirmPassword };
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, Tip = model.Tip, Name= model.Name, Surname = model.Surname, Datum = model.Date, Password= model.Password, ConfirmPassword= model.ConfirmPassword };
+         
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
             //UserManager.AddToRole();
 
@@ -385,6 +390,103 @@ namespace WebApp.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        [Route("UploadImage/{username}")]
+        [AllowAnonymous]
+        public IHttpActionResult UploadImage(string username)
+        {
+            var httpRequest = HttpContext.Current.Request;
+
+                if (httpRequest.Files.Count > 0)
+                {
+                    foreach (string file in httpRequest.Files)
+                    {
+                        var user = UserManager.FindByName(username);
+                        //Sacuvati sliku u bazi i povezati je sa registrovanim userom
+
+
+                        //Passenger passenger = UnitOfWork.PassengerRepository.Get(id);
+
+                        //if (passenger == null)
+                        //{
+                        //    return BadRequest("User does not exists.");
+                        //}
+
+                        //if (passenger.ImageUrl != null)
+                        //{
+                        //    File.Delete(HttpContext.Current.Server.MapPath("~/UploadFile/" + passenger.ImageUrl));
+                        //}
+
+
+
+                        var postedFile = httpRequest.Files[file]; 
+                        string fileName = postedFile.FileName;
+                        var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);
+
+                        Slika slika = null;
+                        IEnumerable<Slika> sveSlike = null;
+                        try
+                        {
+                            sveSlike = Db.Slika.GetAll();
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+
+                        bool korisnikImaSliku = false;
+
+                        if(sveSlike != null)
+                        {
+                            foreach(var s in sveSlike)
+                            {
+                                if(s.Korisnik == user.Id)
+                                {
+                                    korisnikImaSliku = true;
+                                    slika = s;
+                                    break;
+                                }
+                            }
+
+                            if (korisnikImaSliku)
+                            {
+                                Db.Slika.Update(slika);
+                                Db.Complete();
+                            }
+                            else
+                            {
+                                slika = new Slika() { ImageUrl = filePath, Korisnik = user.Id };
+                                Db.Slika.Add(slika);
+                                Db.Complete();
+                            }
+                        }
+                        else
+                        {
+                            slika = new Slika() { ImageUrl = filePath, Korisnik = user.Id };
+                        try
+                        {
+                            
+                            Db.Slika.Add(slika);
+                            Db.Complete();
+                        }catch(Exception e) { }
+                        }
+
+
+                        //UnitOfWork.PassengerRepository.Update(passenger);
+                        //UnitOfWork.Complete();
+
+
+                        postedFile.SaveAs(filePath);
+                    }
+
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
         }
 
         #region Helpers

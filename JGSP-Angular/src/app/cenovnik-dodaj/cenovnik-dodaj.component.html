@@ -1,0 +1,62 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- Include the above in your HEAD tag -->
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+<div class="main">
+  <div class="container">
+    <div class="middle">
+      <div id="login">
+        <form [formGroup]="cenovnikGroup" (ngSubmit)="CreateCenovnik()">
+
+          <fieldset class="clearfix">
+            <br>
+            <p class="paragraf_text">Vremenska:</p><input type="number" formControlName="vremenska" required><br>
+            <!-- JS because of IE support; better: placeholder="Username" -->
+            <br>
+            <p class="paragraf_text">Mesecna:</p><input type="number" formControlName="mesecna" required><br>
+            <br>
+            <p class="paragraf_text">Godisnja:</p><input type="number" formControlName="godisnja" required><br>
+            <br>
+            <p class="paragraf_text">Dnevna:</p><input type="number" formControlName="dnevna" required><br>
+            <br>
+            <p class="paragraf_text">Id:</p><input type="number" formControlName="id" required><br>
+            <br>
+            <p class="paragraf_text">Datum od:</p><input type="date" formControlName="vaziOd" required><br>
+            <br>
+            <p class="paragraf_text">Datum do:</p><input type="date" formControlName="vaziDo" required><br>
+            <br>
+            <p class="paragraf_text">Popust studenti %:</p><input type="number" formControlName="popustStudent"
+              required><br>
+            <br>
+            <p class="paragraf_text">Popust penzija %:</p><input type="number" formControlName="popustPenzija"><br>
+            <br>
+
+            <button id="ButtonsHomePage" (click)="CreateCenovnik()">Novi cenovnik!!</button>
+          </fieldset>
+          <div class="clearfix"></div>
+        </form>
+
+        <br>
+        {{vaziDo1}}
+        <br>
+        <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+
+
+      <div class="logo"> JGSP
+        <div class="clearfix"></div>
+        <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
+      </div>
+    </div>
+  </div>
+  <!--<app-karta></app-karta>-->
+</div>

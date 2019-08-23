@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using Newtonsoft.Json;
 
 namespace WebApp.Models
@@ -17,7 +18,7 @@ namespace WebApp.Models
         public int id { get; set; }
         public string dan { get; set; }
 
- 
+
     }
 
     public class ChangePasswordBindingModel
@@ -41,6 +42,7 @@ namespace WebApp.Models
 
     public class RegisterBindingModel
     {
+        public string Tip { get; set; }
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -68,6 +70,11 @@ namespace WebApp.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+
+        public Image Img { get; set; }
 
     }
 
@@ -101,5 +108,42 @@ namespace WebApp.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+    public class Profil{
+        public string Tip { get; set; }
+        public string Datum { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string ConfirmPassword { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+
+
+    }
+    public class CenovnikBindingModel
+    {
+        public int mesecna { get; set; }
+        public int godisnja { get; set; }
+        public int vremenska { get; set; }
+        public int dnevna { get; set; }
+        public string vaziDo { get; set; }
+        public string vaziOd { get; set; }
+        public int popustPenzija { get; set; }
+        public int popustStudent { get; set; }
+        public int id { get; set; }
+    }
+    public class RedBinding {
+      public  string dan { get; set; }
+        public string red { get; set; }
+        public string linija { get; set; }
+    }
+    public class StanicaBinding
+    {
+        public string naziv { get; set; }
+        public string adresa { get; set; }
+        public string linija { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
     }
 }

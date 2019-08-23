@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RegUser } from 'src/app/osoba';
-import { NgForm } from '@angular/forms';
-import { AuthHttpService } from 'src/app/services/auth.service';
+import { RegUser, RegUserImg } from 'src/app/osoba';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-registracija',
   templateUrl: './registracija.component.html',
@@ -19,27 +17,49 @@ export class RegistracijaComponent implements OnInit {
     username: ['', Validators.required],
     password: ['', Validators.required],
     confirmPassword: ['', Validators.required],
-    email: ['', Validators.required],
-    date: ['', Validators.required]
+    email: ['', Validators.email],
+    date: ['', Validators.required],
+    tip: ['', Validators.required]
   });
 
-  constructor(private http: AuthHttpService, private fb: FormBuilder, private router: Router) { }
-  tipovi: string[] = ["Admin", "Student", "Penzioner", "Obican"];
+  constructor(private userService: UserService, private fb: FormBuilder, private router: Router) { }
+  tipovi: string[] = ["Obican", "Student", "Penzioner"];
   tip: string;
-  ngOnInit() {
-  }
+  slika: File = null;
+
+  ngOnInit() { }
 
   onSubmit() {
-    console.log('Upaoooo');
     let regModel: RegUser = this.registacijaForm.value;
-    this.http.reg(regModel).subscribe(
-
-    );
-
-    this.router.navigate(["/login"])
-    //form.reset();
+    this.userService.Register(regModel).subscribe(x => {
+      if (this.slika != null) {
+        const fData: FormData = new FormData();
+        fData.append('Img', this.slika, this.slika.name);
+        console.log(fData)
+        this.userService.RegisterImg(fData, regModel.username).subscribe();
+      }
+      else {
+        alert("Uspesno ste se registrovali");
+        this.router.navigate(["/login"])
+      }
+    });
   }
 
+  DaLiJeStudentILIPenzioner() {
+    return this.registacijaForm.value.tip.toLower() == 'student' || this.registacijaForm.value.tip.toLower() == 'penzioner' ? true : false;
+  }
 
+  onFileSelected(event) {
+    this.slika = <File>event.target.files[0];
+    console.log(this.slika);
+  }
+
+  sendWithImg() {
+    //poslati post ili get metodom 
+    // const fData : FormData = new FormData();
+    // fData.append('Img', this.slika, this.slika.name);
+    // console.log(fData)
+    // this.http.regImg(fData).subscribe();
+  }
 
 }
