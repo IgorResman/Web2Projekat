@@ -20,7 +20,6 @@ import { MapComponent } from './map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { KontrolorComponent } from './kontrolor/kontrolor.component';
 import { CenovnikComponent } from './cenovnik/cenovnik.component';
-import { KartaNeregistrovanComponent } from './karta-neregistrovan/karta-neregistrovan.component';
 import { MojProfilComponent } from './moj-profil/moj-profil.component';
 import { CenovnikPromenaComponent } from './cenovnik-promena/cenovnik-promena.component';
 import { CenovnikDodajComponent } from './cenovnik-dodaj/cenovnik-dodaj.component';
@@ -55,8 +54,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent, canActivate: [AuthGuardUlogovan] },
   { path: "registracija", component: RegistracijaComponent, canActivate: [AuthGuardUlogovan] },
   { path: "redVoznje", component: RedVoznjeComponent },
-  { path: "kupiKartu", component: KartaComponent, canActivate: [AuthGuardNeregistrovan] },
-  { path: "kupiKartuNeregistrovan", component: KartaNeregistrovanComponent, canActivate: [AuthGuardUlogovan] },
+  { path: "kupiKartu", component: KartaComponent },
   { path: "kontrolor", component: KontrolorComponent, canActivate: [AuthGuardControlor] },
   { path: "cenovnik", component: CenovnikComponent },
   { path: "lokacijaVozila", component: LokacijaVozilaComponent },
@@ -88,7 +86,6 @@ const routes: Routes = [
     MapComponent,
     KontrolorComponent,
     CenovnikComponent,
-    KartaNeregistrovanComponent,
     MojProfilComponent,
     CenovnikPromenaComponent,
     CenovnikDodajComponent,

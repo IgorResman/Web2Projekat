@@ -1,15 +1,14 @@
-export class Osoba{
+export class Osoba {
     name: string
     surname: string
-    
 }
 
-export class User{
+export class User {
     username: string
     password: string
 }
 
-export class RegUser{
+export class RegUser {
     name: string
     surname: string
     username: string
@@ -19,7 +18,7 @@ export class RegUser{
     date: string
 }
 
-export class RegUserImg{
+export class RegUserImg {
     name: string
     surname: string
     username: string
@@ -31,47 +30,47 @@ export class RegUserImg{
 }
 
 export class raspored {
-    polasci : string
+    polasci: string
 
 }
 export class linja {
 
-    linije : number[]
+    linije: number[]
 }
-export class klasaPodaci{
-    id : number
-    dan : string
+export class klasaPodaci {
+    id: number
+    dan: string
 }
 export class Profil {
-    Tip : string 
-   Datum : string
-   Password : string
-    Name : string
-    Surname : string
-    ConfirmPassword : string
-    UserName : string 
-    Email : string
+    Tip: string
+    Datum: string
+    Password: string
+    Name: string
+    Surname: string
+    ConfirmPassword: string
+    UserName: string
+    Email: string
 }
 export class CenovnikBindingModel {
-   mesecna : number
-    godisnja : number
-  vremenska : number
-    dnevna : number
-  vaziDo : string
+    mesecna: number
+    godisnja: number
+    vremenska: number
+    dnevna: number
+    vaziDo: string
     vaziOd: string
-    popustPenzija : number
-    popustStudent : number
-    id : number
+    popustPenzija: number
+    popustStudent: number
+    id: number
 }
 export class RedVoznje {
     dan: string
     polasci: string
-    linija : string
+    linija: string
 }
 export class Stanica {
     naziv: string
     adresa: string
-    linija : string
-    x : number
+    linija: string
+    x: number
     y: number
 }

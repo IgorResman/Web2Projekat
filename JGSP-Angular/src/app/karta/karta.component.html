@@ -13,25 +13,58 @@
 <div class="main">
   <div class="container">
     <div class="middle">
-      <div id="login">
-        <p class="paragraf_text">Tip karte:</p><br>
-        <p><span class="fa "></span>
-          <select id="ButtonsHomePage" [(ngModel)]="tip">
-            <option *ngFor="let t of tipovi">
-              {{t}}
-            </option>
-          </select><br>
-        </p>
-        <br>
-        <p><span class="fa "></span><button id="ButtonsHomePage" (click)="BuyTicket()">Kupi kartu!</button></p>
-        <br>
-        <p class="paragraf_text">
-          {{vaziDo}}
-        </p>
-        <br>
-        <app-paypal></app-paypal>
-        <br>
-        <div class="clearfix"></div>
+      <div *ngIf="!IsJWTUndefined(); else logOut">
+        <div>
+          <p class="paragraf_text">
+            Tip karte:<br>
+            <select id="ButtonsHomePage" [(ngModel)]="tip">
+              <option *ngFor="let t of tipovi">
+                {{t}}
+              </option>
+            </select>
+          </p>
+          <form [formGroup]="regGroup" (ngSubmit)="BuyTicketUnregister()">
+            <fieldset class="clearfix">
+              <br>
+              <p class="paragraf_text">Email:</p>
+              <input Placeholder="Email" type="text" formControlName="mejl"><br>
+              <!-- JS because of IE support; better: placeholder="Username" -->
+            </fieldset>
+            <div class="clearfix"></div>
+          </form><br>
+          <button id="ButtonsHomePage" (click)="BuyTicketUnregister()">Kupi kartu</button>
+
+          <br>
+          <p class="paragraf_text">{{vaziDo}}</p>
+          <app-paypal></app-paypal>
+          <br>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <!-- *********************************************************************************************************************** -->
+      <div>
+        <ng-template #logOut>
+          <div id="login">
+            <p class="paragraf_text">Tip karte:</p><br>
+            <p><span class="fa "></span>
+              <select id="ButtonsHomePage" [(ngModel)]="tip">
+                <option *ngFor="let t of tipovi">
+                  {{t}}
+                </option>
+              </select><br>
+            </p>
+            <br>
+            <p><span class="fa "></span><button id="ButtonsHomePage" (click)="BuyTicket()">Kupi kartu!</button></p>
+            <br>
+            <p class="paragraf_text">
+              {{vaziDo}}
+            </p>
+            <br>
+            <app-paypal></app-paypal>
+            <br>
+            <div class="clearfix"></div>
+          </div>
+        </ng-template>
       </div>
       <div class="clearfix"></div>
       <div class="logo"> JGSP
