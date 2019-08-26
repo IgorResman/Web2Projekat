@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpService } from 'src/app/services/auth.service';
 import { error } from 'util';
-import { raspored, linja } from 'src/app/osoba';
 import { LinijaService } from '../services/linija.service';
+import { linija } from '../models/linija';
 @Component({
   selector: 'app-linije',
   templateUrl: './linije.component.html',
@@ -11,7 +11,7 @@ import { LinijaService } from '../services/linija.service';
 export class LinijeComponent implements OnInit {
 
   constructor(private linijaService: LinijaService) { }
-  linija: linja = new linja();
+  linija: linija = new linija();
   ngOnInit() { }
 
   OnGetLinije() {

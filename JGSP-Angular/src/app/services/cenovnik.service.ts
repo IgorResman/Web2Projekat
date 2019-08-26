@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
-import { CenovnikBindingModel } from '../osoba';
+import { CenovnikBindingModel } from '../models/cenovnik-binding-model';
 
 @Injectable({
   providedIn: 'root'

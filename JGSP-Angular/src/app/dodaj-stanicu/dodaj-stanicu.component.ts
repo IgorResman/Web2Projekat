@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthHttpService } from 'src/app/services/auth.service';
 import { NgForm, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Stanica } from 'src/app/osoba';
 import { StanicaService } from '../services/stanica.service';
 import { LinijaService } from '../services/linija.service';
+import { Stanica } from '../models/stanica';
 @Component({
   selector: 'app-dodaj-stanicu',
   templateUrl: './dodaj-stanicu.component.html',

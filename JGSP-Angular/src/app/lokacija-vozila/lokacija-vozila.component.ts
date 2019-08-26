@@ -3,10 +3,12 @@ import { GeoLocation } from '../map/map-model/geolocation';
 import { MarkerInfo } from '../map/map-model/marker-info.model';
 import { AuthHttpService } from '../services/auth.service';
 import { Polyline } from '../map/map-model/polyline';
-import { raspored, klasaPodaci, linja } from 'src/app/osoba';
 import { LokacijaVozilaService } from '../services/lokacija.vozila.service';
 import { Router } from '@angular/router';
 import { LinijaService } from '../services/linija.service';
+import { raspored } from '../models/raspored';
+import { linija } from '../models/linija';
+import { klasaPodaci } from '../models/klasa-podaci';
 
 @Component({
   selector: 'app-lokacija-vozila',
@@ -19,7 +21,7 @@ export class LokacijaVozilaComponent implements OnInit {
   locations: string[];
   polasci: string;
   ras: raspored = new raspored();
-  linija: linja = new linja();
+  linija: linija = new linija();
   klasa: klasaPodaci = new klasaPodaci();
   selectedLine: number;
   linijeZaView: number[];

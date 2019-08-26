@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { Stanica } from '../osoba';
+import { Stanica } from '../models/stanica';
 
 @Injectable({
   providedIn: 'root'

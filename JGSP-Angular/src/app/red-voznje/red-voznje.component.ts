@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpService } from 'src/app/services/auth.service';
 import { error } from 'util';
-import { raspored, klasaPodaci } from 'src/app/osoba';
-import { linja } from 'src/app/osoba';
 import { LinijaService } from '../services/linija.service';
+import { linija } from '../models/linija';
+import { raspored } from '../models/raspored';
+import { klasaPodaci } from '../models/klasa-podaci';
 
 @Component({
   selector: 'app-red-voznje',
@@ -11,17 +12,17 @@ import { LinijaService } from '../services/linija.service';
   styleUrls: ['./red-voznje.component.css']
 })
 export class RedVoznjeComponent implements OnInit {
-
   polasci: string;
-  constructor(private linijaService: LinijaService) { }
   ras: raspored = new raspored();
-  linija: linja = new linja();
+  linija: linija = new linija();
   klasa: klasaPodaci = new klasaPodaci();
   selectedLine: number;
   linijeZaView: number[];
   dani: string[] = ["Radni", "Subota", "Nedelja"];
   dan: string;
   text: string = "Klisa";
+
+  constructor(private linijaService: LinijaService) { }
 
   ngOnInit() {
     this.linijaService.GetLines().subscribe((linijesabekenda) => {

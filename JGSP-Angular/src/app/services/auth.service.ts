@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RegUser, RegUserImg } from 'src/app/osoba';
-import { Stanica } from 'src/app/osoba';
-import { RedVoznje } from 'src/app/osoba';
-import { CenovnikBindingModel } from 'src/app/osoba';
-import { Observable } from 'rxjs/internal/Observable';
 
 
 @Injectable()

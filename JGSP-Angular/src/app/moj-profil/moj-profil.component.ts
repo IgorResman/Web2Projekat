@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
-import { RegUser } from 'src/app/osoba';
-import { Profil } from 'src/app/osoba';
 import { NgForm } from '@angular/forms';
 import { AuthHttpService } from 'src/app/services/auth.service';
 import { FormBuilder } from '@angular/forms';
@@ -9,6 +6,8 @@ import { Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KartaService } from '../services/karta.service';
+import { Profil } from '../models/profil';
+import { RegUser } from '../models/reg-user';
 @Component({
   selector: 'app-moj-profil',
   templateUrl: './moj-profil.component.html',
@@ -18,7 +17,6 @@ export class MojProfilComponent implements OnInit {
   tipovi: string[] = ["Admin", "Student", "Penzioner", "Obican"];
   tip: string;
   profil1: Profil;
-  constructor(private kartaService: KartaService, private fb: FormBuilder, private router: Router) { }
   registacijaForm = this.fb.group({
     name: ['', Validators.required],
     surname: ['', Validators.required],
@@ -29,6 +27,8 @@ export class MojProfilComponent implements OnInit {
     date: ['', Validators.required],
     tip: ['', Validators.required]
   });
+
+  constructor(private kartaService: KartaService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.kartaService.GetUser().subscribe((profil) => {

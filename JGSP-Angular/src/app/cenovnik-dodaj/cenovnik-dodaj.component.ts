@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthHttpService } from 'src/app/services/auth.service';
 import { NgForm, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { CenovnikBindingModel } from 'src/app/osoba';
 import { CenovnikService } from '../services/cenovnik.service';
+import { CenovnikBindingModel } from '../models/cenovnik-binding-model';
 @Component({
   selector: 'app-cenovnik-dodaj',
   templateUrl: './cenovnik-dodaj.component.html',

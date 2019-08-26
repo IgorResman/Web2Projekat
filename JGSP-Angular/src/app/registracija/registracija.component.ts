@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RegUser, RegUserImg } from 'src/app/osoba';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { RegUser } from '../models/reg-user';
 @Component({
   selector: 'app-registracija',
   templateUrl: './registracija.component.html',

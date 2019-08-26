@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Osoba } from 'src/app/osoba';
+import { Osoba } from './models/osoba';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +8,5 @@ import { Osoba } from 'src/app/osoba';
 })
 export class AppComponent {
   title = 'NewProject';
-  peraOsoba: Osoba = {name:"Pera", surname:"Varga"}
+  peraOsoba: Osoba = { name: "Pera", surname: "Varga" }
 }

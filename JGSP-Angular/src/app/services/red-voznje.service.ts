@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { RedVoznje } from '../osoba';
+import { RedVoznje } from '../models/red-voznje';
 
 @Injectable({
   providedIn: 'root'

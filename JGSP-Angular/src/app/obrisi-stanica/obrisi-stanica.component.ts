@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Stanica } from 'src/app/osoba';
 import { AuthHttpService } from 'src/app/services/auth.service';
 import { StanicaService } from '../services/stanica.service';
 

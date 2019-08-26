@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
-import { RegUser } from '../osoba';
+import { RegUser } from '../models/reg-user';
 
 @Injectable({
   providedIn: 'root'

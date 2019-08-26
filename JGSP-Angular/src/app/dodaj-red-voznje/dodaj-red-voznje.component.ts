@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthHttpService } from 'src/app/services/auth.service';
 import { NgForm, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { RedVoznje } from 'src/app/osoba';
 import { LinijaService } from '../services/linija.service';
 import { RedVoznjeService } from '../services/red-voznje.service';
+import { RedVoznje } from '../models/red-voznje';
 @Component({
   selector: 'app-dodaj-red-voznje',
   templateUrl: './dodaj-red-voznje.component.html',
