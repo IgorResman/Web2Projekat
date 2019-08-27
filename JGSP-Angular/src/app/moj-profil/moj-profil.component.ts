@@ -16,7 +16,7 @@ import { RegUser } from '../models/reg-user';
 export class MojProfilComponent implements OnInit {
   tipovi: string[] = ["Admin", "Student", "Penzioner", "Obican"];
   tip: string;
-  profil1: Profil;
+  profil: Profil;
   registacijaForm = this.fb.group({
     name: ['', Validators.required],
     surname: ['', Validators.required],
@@ -32,18 +32,18 @@ export class MojProfilComponent implements OnInit {
 
   ngOnInit() {
     this.kartaService.GetUser().subscribe((profil) => {
-      this.profil1 = profil;
+      this.profil = profil;
       err => console.log(err);
 
       this.registacijaForm.patchValue({
-        name: this.profil1.Name,
-        surname: this.profil1.Surname,
-        date: this.profil1.Datum,
-        password: this.profil1.Password,
-        confirmPassword: this.profil1.ConfirmPassword,
-        email: this.profil1.Email,
-        username: this.profil1.UserName,
-        tip: this.profil1.Tip
+        name: this.profil.Name,
+        surname: this.profil.Surname,
+        date: this.profil.Datum,
+        password: this.profil.Password,
+        confirmPassword: this.profil.ConfirmPassword,
+        email: this.profil.Email,
+        username: this.profil.UserName,
+        tip: this.profil.Tip
       });
     });
   }
@@ -54,5 +54,4 @@ export class MojProfilComponent implements OnInit {
     this.router.navigate(["/home"])
     //form.reset();
   }
-  DobaviUsera() { }
 }

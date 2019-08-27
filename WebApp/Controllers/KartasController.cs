@@ -51,9 +51,9 @@ namespace WebApp.Controllers
             //var user = UserManager.FindByName(IdKorisnika);
 
             string odgovor = "";
-            foreach(Karta k1 in karte)
+            foreach (Karta k1 in karte)
             {
-                if(k1.ApplicationUserId == u.Id)//user.Id)
+                if (k1.ApplicationUserId == u.Id)//user.Id)
                 {
                     karta = k1;
                 }
@@ -70,7 +70,7 @@ namespace WebApp.Controllers
                     var datumKarte = karta.VaziDo;
                     var pocetakSledecegDana = new DateTime(datumKarte.Year, datumKarte.Month, datumKarte.AddDays(1).Day);
 
-                    if(pocetakSledecegDana > DateTime.UtcNow)
+                    if (pocetakSledecegDana > DateTime.UtcNow)
                     {
                         odgovor = "Vazi vam karta";
                     }
@@ -137,7 +137,7 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         [ResponseType(typeof(string))]
         [Route("GetKarta/{tipKarte}/{tipKupca}")]
-        public IHttpActionResult GetKartaCena(string tipKarte,string tipKupca)
+        public IHttpActionResult GetKartaCena(string tipKarte, string tipKupca)
         {
             List<CenaKarte> karte = Db.CenaKarte.GetAll().ToList();
             List<Cenovnik> cenovnici = Db.Cenovnik.GetAll().ToList();
@@ -145,9 +145,9 @@ namespace WebApp.Controllers
             Cenovnik cen = Db.Cenovnik.GetAll().Where(t => t.VaziDo > DateTime.UtcNow && t.VaziOd < DateTime.UtcNow).FirstOrDefault();
 
             string odg = "Cena zeljene karte je : ";
-            foreach(CenaKarte k in karte)
+            foreach (CenaKarte k in karte)
             {
-                if(k.TipKarte == tipKarte && tipKupca == k.TipKupca && cen.IdCenovnik == k.CenovnikId)
+                if (k.TipKarte == tipKarte && tipKupca == k.TipKupca && cen.IdCenovnik == k.CenovnikId)
                 {
                     odg += k.Cena.ToString();
                 }
@@ -179,7 +179,7 @@ namespace WebApp.Controllers
                     odg += k.Cena.ToString();
                     k.Cena = cena;
                     Db.CenaKarte.Update(k);
-                   
+
                     Db.Complete();
                 }
             }
@@ -190,7 +190,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             odg += "Sada je promenjena na : " + cena.ToString() + " rsd.";
-        
+
             return Ok(odg);
         }
         [AllowAnonymous]
@@ -237,7 +237,7 @@ namespace WebApp.Controllers
             u.UserName = model.Email;
             u.Surname = model.Surname;
             u.Tip = model.Tip;
-      
+
             db.Entry(u).State = EntityState.Modified;
 
             db.SaveChanges();
@@ -250,12 +250,12 @@ namespace WebApp.Controllers
         {
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
-     
+
             Karta novaKarta = new Karta();
             string tipKorisnika;
             var id = User.Identity.GetUserId();
             ApplicationUser u = userManager.FindById(id);
-          
+
             if (u == null)
             {
                 tipKorisnika = "Obican";
@@ -271,21 +271,16 @@ namespace WebApp.Controllers
 
 
 
-            CenaKarte ck = Db.CenaKarte.GetAll().Where(t => t.TipKarte == tipKarte && t.TipKupca == tipKorisnika && t.CenovnikId ==cen.IdCenovnik).FirstOrDefault();
-           // novaKarta.CenaKarte = ck;
+            CenaKarte ck = Db.CenaKarte.GetAll().Where(t => t.TipKarte == tipKarte && t.TipKupca == tipKorisnika && t.CenovnikId == cen.IdCenovnik).FirstOrDefault();
+            // novaKarta.CenaKarte = ck;
             novaKarta.CenaKarteId = ck.IdCenaKarte;
 
             novaKarta.Tip = tipKarte;
-       
-     
-            //novaKarta.ApplicationUserId = User.Identity.GetUserId();
+
             novaKarta.VaziDo = DateTime.UtcNow;
             if (u != null && u.Odobren == true)
             {
                 novaKarta.ApplicationUserId = id;
-                // novaKarta.ApplicationUser = u;
-                //novaKarta.ApplicationUser = userManager.FindById(id);
-                // u.Karte.Add(novaKarta);
                 cena = ck.Cena;
                 povratna = "Uspesno ste kupili " + tipKarte + "-u" + " kartu, po ceni od |" + cena.ToString() + "| rsd, hvala vam, vas gsp!";
 
@@ -299,11 +294,11 @@ namespace WebApp.Controllers
             }
             else if (u != null && u.Odobren == false)
             {
-       
+
                 povratna = "Kontrolor vas nije prihvatio";
 
 
-           
+
             }
             else if (u == null)
             {
@@ -317,7 +312,7 @@ namespace WebApp.Controllers
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.EnableSsl = true;
                 client.Host = "smtp.gmail.com";
-             
+
                 mail.Subject = "JGSP";
                 mail.Body = $"Uspesno ste kupili kartu za {DateTime.Now}. {Environment.NewLine} Broj karte: {novaKarta.IdKarte} {Environment.NewLine}Hvala na poverenju, JGSP!";
                 try
@@ -340,12 +335,12 @@ namespace WebApp.Controllers
                     return InternalServerError(e);
                 }
             }
-      
+
             if (ck == null)
             {
                 return NotFound();
             }
-       
+
             return Ok(povratna);
         }
 

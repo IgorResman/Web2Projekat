@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         public ValuesController(IUnitOfWork db)
         {
             Db = db;
-        
+
         }
         public ValuesController()
         {
@@ -43,19 +43,21 @@ namespace WebApp.Controllers
 
         // POST api/values
         [AllowAnonymous]
- 
+
         [Route("GetZahtevi")]
         public List<string> GetValues()
         {
-            IQueryable<ApplicationUser> acounti;
-            acounti = db.Users.AsQueryable();
-            List<string> usernameovi = new List<string>();
-            foreach(ApplicationUser a in acounti)
+            List<ApplicationUser> accounts;
+            accounts = db.Users.AsQueryable().ToList();
+            List<string> usernames = new List<string>();
+
+            accounts.ForEach(x =>
             {
-                if(!a.Odobren)
-                usernameovi.Add(a.UserName);
-            }
-            return usernameovi;
+                if (!x.Odobren)
+                    usernames.Add(x.UserName);
+            });
+            
+            return usernames;
         }
         // POST api/values
         [AllowAnonymous]
@@ -64,66 +66,55 @@ namespace WebApp.Controllers
         [ResponseType(typeof(string))]
         public IHttpActionResult GetValues(string mejl)
         {
-            IQueryable<ApplicationUser> acounti;
-            acounti = db.Users.AsQueryable();
-            ApplicationUser app = new ApplicationUser();
-            foreach (ApplicationUser a in acounti)
+            List<ApplicationUser> accounts;
+            accounts = db.Users.AsQueryable().ToList();
+            ApplicationUser appUser = new ApplicationUser();
+
+            accounts.ForEach(x =>
             {
-                if(a.UserName == mejl)
-                {
-                    app = a;
-                }
-             
+                if (x.UserName.Equals(mejl))
+                    appUser = x;
+            });
 
-            }
-            app.Odobren = true;
-            db.Entry(app).State = EntityState.Modified;
-
+            appUser.Odobren = true;
+            db.Entry(appUser).State = EntityState.Modified;
             db.SaveChanges();
+
             string email = mejl.Replace('-', '.');
-            MailMessage mail = new MailMessage("marko.mijatovic.1996@gmail.com", app.Email);
+            MailMessage mail = new MailMessage("ajovke@gmail.com", appUser.Email);
             SmtpClient client = new SmtpClient();
             client.Port = 587;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = true;
-            client.Credentials = new NetworkCredential("marko.mijatovic.1996@gmail.com", "qcfu xays czwu bopw");    //iymr rzbn gpfs bpbg
+            client.Credentials = new NetworkCredential("ajovke@gmail.com", "qcfu xays czwu bopw");    //iymr rzbn gpfs bpbg
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.EnableSsl = true;
             client.Host = "smtp.gmail.com";
 
             mail.Subject = "JGSP";
-            mail.Body = $"Vasa registracija je odobrena {DateTime.Now}. {Environment.NewLine} Sada mozete kupovati karte na nasem servisu. {Environment.NewLine}Hvala na poverenju, JGSP!";
-
+            mail.Body = $"Vasa registracija je odobrena - {DateTime.Now}. {Environment.NewLine} Sada mozete kupovati karte na nasem servisu. {Environment.NewLine}";
             client.Send(mail);
+
             return Ok("Odobrili ste mu registraciju!");
         }
 
         [AllowAnonymous]
-
         [Route("Verifikovan")]
         [ResponseType(typeof(string))]
         public IHttpActionResult GetVerifikovan()
         {
-            IQueryable<ApplicationUser> acounti;
-            acounti = db.Users.AsQueryable();
-            ApplicationUser app = new ApplicationUser();
+            List<ApplicationUser> accounts;
+            accounts = db.Users.AsQueryable().ToList();
+            ApplicationUser appUser = new ApplicationUser();
             var id = User.Identity.GetUserId();
 
-            foreach (ApplicationUser a in acounti)
+            accounts.ForEach(x =>
             {
-                if (a.Id == id)
-                {
-                    app = a;
-                    break;
-                }
-            }
+                if (x.Id.Equals(id))
+                    appUser = x;
+            });
 
-            if (app.Odobren)
-                return Ok("Verifikovan");
-            else
-                return Ok("Nije Verifikovan");
-            
-            //return Ok("Odobrili ste mu kupovinu!");
+            return appUser.Odobren ? Ok("Verifikovan") : Ok("Nije Verifikovan");
         }
     }
 }

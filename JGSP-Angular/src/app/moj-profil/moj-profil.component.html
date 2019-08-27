@@ -1,72 +1,81 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!-- Include the above in your HEAD tag -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <div class="main">
-
-
   <div class="container">
-
-    <div class="middle">
-      <div id="login">
-
+    <div class="card bg-light">
+      <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">Change Account</h4>
         <form [formGroup]="registacijaForm" (ngSubmit)="onSubmit()">
-
-          <fieldset class="clearfix">
-
-            <p><span class="fa fa-user"></span><input type="text" formControlName="name" required></p>
-            <!-- JS because of IE support; better: placeholder="Username" -->
-            <p><span class="fa fa-user"></span><input type="text" formControlName="surname" required></p>
-            <p><span class="fa fa-user"></span><input type="text" formControlName="username" required></p>
-            <p><span class="fa fa-lock"></span><input type="password" formControlName="password" required></p>
-            <p><span class="fa fa-lock"></span><input type="password" formControlName="confirmPassword" required></p>
-            <p><span class="fa fa-user"></span><input type="email" formControlName="email" required></p><br>
-            <p><span class="fa fa-user"></span><input type="date" formControlName="date" required></p><br>
-            <p>
-              <select formControlName="tip">
-                <option *ngFor="let t of tipovi">
-                  {{t}}
-                </option>
-              </select>
-              <br>
-
-            </p>
-            <div>
-
-              <span style="width:100%; text-align:right;  display: inline-block;"><input type="submit"
-                  value="Promeni podatke"></span>
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
             </div>
-
-
-          </fieldset>
-
-          <div class="clearfix"></div>
+            <input class="form-control" type="text" formControlName="surname" required>
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input class="form-control" type="text" formControlName="surname" required>
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input class="form-control" type="text" formControlName="username" required>
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+            </div>
+            <input class="form-control" type="email" formControlName="email" required>
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input class="form-control" type="password" formControlName="password" required>
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input class="form-control" type="password" formControlName="confirmPassword" required>
+          </div> <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-calendar"></i> </span>
+            </div>
+            <input class="form-control" type="date" formControlName="date" required>
+          </div> <!-- form-group// -->
+          <p>
+            <select formControlName="tip">
+              <option *ngFor="let t of tipovi">
+                {{t}}
+              </option>
+            </select>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block"> Promeni Podatke </button>
+            </div> <!-- form-group// -->
         </form>
-        <br>
+        <hr>
         <form action="/action_page.php">
           <input type="file" name="pic" accept="image/*">
-          <span style="width:100%; text-align:right;  display: inline-block;"><input type="submit"
-              value="Submit"></span>
+          <span style="width:100%; text-align:right;  display: inline-block;">
+            <br>
+            <button type="submit" class="btn btn-primary btn-block"> Submit </button>
+          </span>
         </form>
-
-        <div class="clearfix"></div>
-        <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
-      </div> <!-- end login -->
-      <div class="logo">JGSP
-
-        <div class="clearfix"></div>
-      </div>
-      <br>
-
-    </div>
-
+        <hr>
+        <p class="text-center"><a routerLink="/">Home</a> </p>
+      </article>
+    </div> <!-- card.// -->
   </div>
-
+  <!--container end.//-->
 </div>
+<div class="clearfix"></div>

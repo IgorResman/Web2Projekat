@@ -29,7 +29,7 @@ namespace WebApp.Controllers
         {
             Db = db;
         }
-  
+
 
         // PUT: api/Cenovniks/5
         [ResponseType(typeof(void))]
@@ -68,13 +68,13 @@ namespace WebApp.Controllers
 
         // POST: api/Promen
         [AllowAnonymous]
-      
+
         [Route("PromeniCenovnik")]
         public IHttpActionResult PostCenovnik(CenovnikBindingModel cenovnik)
         {
-    
+
             Cenovnik cenNovi = new Cenovnik();
-            cenNovi.VaziDo = DateTime.Parse (cenovnik.vaziDo);
+            cenNovi.VaziDo = DateTime.Parse(cenovnik.vaziDo);
             cenNovi.VaziOd = DateTime.Parse(cenovnik.vaziOd);
             cenNovi.IdCenovnik = cenovnik.id;
             CenaKarte SD = new CenaKarte();
@@ -89,16 +89,16 @@ namespace WebApp.Controllers
             CenaKarte OV = new CenaKarte();
             CenaKarte OM = new CenaKarte();
             CenaKarte OG = new CenaKarte();
-            SD.Cena = cenovnik.dnevna -( cenovnik.dnevna * cenovnik.popustStudent /100);
-            SM.Cena = cenovnik.mesecna -( cenovnik.mesecna* cenovnik.popustStudent /100);
-            SG.Cena = cenovnik.godisnja - (cenovnik.godisnja * cenovnik.popustStudent /100);
-            SV.Cena = cenovnik.vremenska- (cenovnik.vremenska * cenovnik.popustStudent /100);
-            PD.Cena = cenovnik.dnevna -(cenovnik.dnevna * cenovnik.popustPenzija /100);
-            PM.Cena = cenovnik.mesecna - (cenovnik.dnevna * cenovnik.popustPenzija /100);
-            PG.Cena = cenovnik.godisnja -(cenovnik.dnevna * cenovnik.popustPenzija /100);
-            PV.Cena = cenovnik.vremenska-(cenovnik.dnevna * cenovnik.popustPenzija /100);
-            OD.Cena = cenovnik.dnevna ;
-            OM.Cena = cenovnik.mesecna ;
+            SD.Cena = cenovnik.dnevna - (cenovnik.dnevna * cenovnik.popustStudent / 100);
+            SM.Cena = cenovnik.mesecna - (cenovnik.mesecna * cenovnik.popustStudent / 100);
+            SG.Cena = cenovnik.godisnja - (cenovnik.godisnja * cenovnik.popustStudent / 100);
+            SV.Cena = cenovnik.vremenska - (cenovnik.vremenska * cenovnik.popustStudent / 100);
+            PD.Cena = cenovnik.dnevna - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
+            PM.Cena = cenovnik.mesecna - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
+            PG.Cena = cenovnik.godisnja - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
+            PV.Cena = cenovnik.vremenska - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
+            OD.Cena = cenovnik.dnevna;
+            OM.Cena = cenovnik.mesecna;
             OG.Cena = cenovnik.godisnja;
             OV.Cena = cenovnik.vremenska;
             SD.TipKupca = "Student";

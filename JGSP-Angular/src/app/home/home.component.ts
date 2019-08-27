@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
 
   IsVerified() {
     this.userService.Verify().subscribe((response) => {
+      console.log(response);
       this.verifikovan = response;
     });
   }

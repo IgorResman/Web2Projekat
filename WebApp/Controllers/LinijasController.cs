@@ -26,7 +26,7 @@ namespace WebApp.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
         public IUnitOfWork Db { get; set; }
-       
+
         public LinijasController(IUnitOfWork db)
         {
             Db = db;
@@ -37,7 +37,8 @@ namespace WebApp.Controllers
         {
             IQueryable<Linija> linije = Db.Linija.GetAll().AsQueryable();
             List<string> BrojeviLinija = new List<string>();
-            foreach (Linija l in linije) {
+            foreach (Linija l in linije)
+            {
                 BrojeviLinija.Add(l.RedniBroj);
             }
             return BrojeviLinija;
@@ -50,11 +51,11 @@ namespace WebApp.Controllers
         public IHttpActionResult GetLinija(string id, string dan)
         {
             IQueryable<Linija> linije = Db.Linija.GetAll().AsQueryable();
-           
+
             string retvalue = "n";
-          foreach(Linija l in linije)
+            foreach (Linija l in linije)
             {
-                if(l.RedniBroj==id)
+                if (l.RedniBroj == id)
                 {
                     foreach (RedVoznje red in l.RedoviVoznje)
                     {
@@ -65,12 +66,12 @@ namespace WebApp.Controllers
                     }
                 }
             }
-          if(retvalue == "n")
+            if (retvalue == "n")
             {
                 return NotFound();
             }
-         
-        
+
+
             return Ok(retvalue);
         }
 
@@ -80,10 +81,9 @@ namespace WebApp.Controllers
         [Route("GetLinija/{id}/{dan}/{p}")]
         public IHttpActionResult GetLinija(int id, string dan, string p)
         {
-            using (StreamReader r = new StreamReader("C:/Users/MIJAT/Desktop/w2/Jgsp-/sve.json"))
-            {   
+            using (StreamReader r = new StreamReader("C:/Users/Coa/Desktop/w2/Jgsp-/sve.json"))
+            {
                 string json = "", linijaPodela = "";
-                string[] linije;
                 //Stanica s = new Stanica();
                 //Linija l = new Linija();
 
@@ -91,7 +91,6 @@ namespace WebApp.Controllers
                 {
                     string[] linijaNiz;
                     Stanica s = new Stanica();
-                    //json = r.ReadLine();
                     linijaPodela = json.Split('|')[0];
                     linijaNiz = linijaPodela.Split(',', '[', ']');
                     s.Adresa = json.Split('|')[3];
@@ -112,9 +111,9 @@ namespace WebApp.Controllers
                             List<Linija> sveLinije = Db.Linija.GetAll().ToList();
                             bool linijaPostoji = false;
 
-                            foreach(var linija in sveLinije)
+                            foreach (var linija in sveLinije)
                             {
-                                if(linija.RedniBroj == lin)
+                                if (linija.RedniBroj == lin)
                                 {
                                     l = null;
                                     l = linija;
@@ -125,10 +124,6 @@ namespace WebApp.Controllers
 
                             if (linijaPostoji)
                             {
-                                //s.Linije.Add(l);
-                                //l.Stanice.Add(s);
-                                //Db.Linija.Update(l);
-                                //continue;
                                 List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
                                 foreach (var stanica in sveStanice)
                                 {
@@ -193,34 +188,11 @@ namespace WebApp.Controllers
                             }
                         }
                     }
-                    //List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
-                    //foreach (var stanica in sveStanice)
-                    //{
-                    //    if (stanica.Adresa == s.Adresa)
-                    //    {
-                    //        s = stanica;
-                    //        stanicaPostoji = true;
-                    //        break;
-                    //    }
-                    //}
-
-                    //if (stanicaPostoji)
-                    //{
-                    //    //Db.Stanica.Update(s);
-                    //    continue;
-                    //}
-                    //else
-                    //{
-                    //    Db.Stanica.Add(s);
-                    //}
-                    //Db.Complete();
                 }
-                
-                
             }
 
             string retvalue = "n";
-            
+
             if (retvalue == "n")
             {
                 return NotFound();
@@ -284,10 +256,10 @@ namespace WebApp.Controllers
 
         // DELETE: api/Linijas/5
         [AllowAnonymous]
-      
+
         public IHttpActionResult DeleteLinija(int id)
         {
-            Linija linija = db.Linije.Where(x=>x.RedniBroj== id.ToString()).FirstOrDefault();
+            Linija linija = db.Linije.Where(x => x.RedniBroj == id.ToString()).FirstOrDefault();
             if (linija == null)
             {
                 return NotFound();
