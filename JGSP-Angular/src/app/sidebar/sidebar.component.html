@@ -1,0 +1,104 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- Include the above in your HEAD tag -->
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+<div id="wrapper" class="wrapper-content" style='background:blue;'>
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a routerLink="/home" style="color: blue">JGSP</a>
+      </li>
+      <div *ngIf="!IsJWTUndefined(); else logOut">
+        <li>
+          <a routerLink="/login">Login</a>
+        </li>
+        <li>
+          <a routerLink="/registracija">Registracija</a>
+        </li>
+        <li>
+          <a routerLink="/kupiKartu">Kupi kartu neregistrovan!</a>
+        </li>
+      </div>
+      <div>
+        <ng-template #logOut>
+          <li>
+            <a (click)="IsVerified()">Verifikovan?</a>
+            <p>{{verifikovan}}</p>
+          </li>
+          <li>
+            <a (click)="LogOut()">LogOut</a>
+          </li>
+          <li>
+            <a routerLink="/mojProfil">Moj Profil!</a>
+          </li>
+          <li>
+            <a routerLink="/kupiKartu">Kupi kartu</a>
+          </li>
+          <li>
+            <a routerLink="/redVoznje">Red voznje</a>
+          </li>
+          <li>
+            <a routerLink="/cenovnik">Cenovnik!</a>
+          </li>
+          <li>
+            <a routerLink="/lokacijaVozila">Lokacija vozila!</a>
+          </li>
+        </ng-template>
+      </div>
+      <div *ngIf="IsControllor();">
+        <li>
+          <a routerLink="/odobrimejl">Odobri registraciju!!</a>
+        </li>
+        <li>
+          <a routerLink="/kontrolor">Proveri kartu putniku!</a>
+        </li>
+      </div>
+      <div *ngIf="IsAdmin();">
+        <li>
+          <a routerLink="/dodajCenovnik">Dodaj novi cenovnik!!</a>
+        </li>
+        <li>
+          <a routerLink="/obrisiCenovnik">Obrisite cenovnik!!</a>
+        </li>
+        <li>
+          <a routerLink="/dodajRedVoznje">Dodaj red voznje!</a>
+        </li>
+        <li>
+          <a routerLink="/obrisiRedVoznje">Obrisi red voznje!</a>
+        </li>
+        <li>
+          <a routerLink="/dodajLiniju">Dodaj liniju!</a>
+        </li>
+        <li>
+          <a routerLink="/dodajStanicu">Dodaj stanicu!</a>
+        </li>
+        <li>
+          <a routerLink="/spojiStanicaLinija">Spoji stanicu sa linijom!</a>
+        </li>
+        <li>
+          <a routerLink="/izbrisiStanicu">Izbrisi stanicu!</a>
+        </li>
+        <li>
+          <a routerLink="/izbrisiLiniju">Izbrisi Liniju!</a>
+        </li>
+        <li>
+          <a routerLink="/promenaCene">Promeni cene karata!</a>
+        </li>
+        <li>
+          <a routerLink="/dodajCenovnik">Dodaj novi cenovnik!</a>
+        </li>
+        <li>
+          <a routerLink="/obrisiCenovnik">Obrisite cenovnik!!</a>
+        </li>
+      </div>
+    </ul>
+  </div>
+</div>

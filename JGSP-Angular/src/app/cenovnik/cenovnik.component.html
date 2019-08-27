@@ -10,35 +10,36 @@
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-<div class="main">
-  <div class="container">
-    <div class="middle">
-      <div id="login">
-        <p class="paragraf_text">
-          Tip karte:<br>
-          <select id="ButtonsHomePage" [(ngModel)]="tip">
-            <option *ngFor="let t of tipovi">
-              {{t}}
-            </option>
-          </select><br>
-          Tip putnika:<br>
-          <select id="ButtonsHomePage" [(ngModel)]="tipPutnika">
-            <option *ngFor="let tP of tipoviPutnika">
-              {{tP}}
-            </option>
-          </select><br>
-        </p><br>
-        <p><span class="fa "></span><button id="ButtonsHomePage" (click)="TicketPrice()">Prikazi trenutni cenovnik!
-          </button></p>
-        <br>
-        {{cena}}
-
-        <div class="clearfix"></div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="logo"> JGSP
-        <div class="clearfix"></div>
-        <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
+<div id="main-wrap">
+  <app-sidebar></app-sidebar>
+  <div class="main">
+    <div class="container">
+      <div class="middle">
+        <div id="login">
+          <div class="paragraf_text">
+            <h2 style="color: black">Tip Karte:</h2>
+            <br>
+            <select id="ButtonsHomePage" [(ngModel)]="tip">
+              <option *ngFor="let t of tipovi">
+                {{t}}
+              </option>
+            </select>
+            <br>
+            <br>
+            <br>
+            <h2 style="color: black">Tip putnika:</h2>
+            <br>
+            <select id="ButtonsHomePage" [(ngModel)]="tipPutnika">
+              <option *ngFor="let tP of tipoviPutnika">
+                {{tP}}
+              </option>
+            </select><br>
+          </div>
+          <br>
+          <p><button id="ButtonsHomePage" (click)="TicketPrice()">Cenovnik</button></p>
+          <br>
+          {{cena}}
+        </div>
       </div>
     </div>
   </div>

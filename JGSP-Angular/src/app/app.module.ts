@@ -47,6 +47,7 @@ import { LinijaService } from './services/linija.service';
 import { RedVoznjeService } from './services/red-voznje.service';
 import { StanicaService } from './services/stanica.service';
 import { UserService } from './services/user.service';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -99,7 +100,8 @@ const routes: Routes = [
     ObrisiLinijaComponent,
     OdobriMejlComponent,
     LokacijaVozilaComponent,
-    PaypalComponent
+    PaypalComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
