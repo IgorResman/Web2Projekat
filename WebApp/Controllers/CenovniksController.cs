@@ -72,7 +72,6 @@ namespace WebApp.Controllers
         [Route("PromeniCenovnik")]
         public IHttpActionResult PostCenovnik(CenovnikBindingModel cenovnik)
         {
-
             Cenovnik cenNovi = new Cenovnik();
             cenNovi.VaziDo = DateTime.Parse(cenovnik.vaziDo);
             cenNovi.VaziOd = DateTime.Parse(cenovnik.vaziOd);
@@ -164,6 +163,7 @@ namespace WebApp.Controllers
             Db.CenaKarte.Add(SG);
             Db.CenaKarte.Add(SV);
             Db.Complete();
+
             return Ok();
         }
 

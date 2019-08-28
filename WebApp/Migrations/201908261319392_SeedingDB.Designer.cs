@@ -7,18 +7,18 @@ namespace WebApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class CenovnikAktuelan : IMigrationMetadata
+    public sealed partial class SeedingDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CenovnikAktuelan));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(SeedingDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906271811486_CenovnikAktuelan"; }
+            get { return "201908261319392_SeedingDB"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

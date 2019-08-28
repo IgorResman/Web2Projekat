@@ -39,4 +39,9 @@ export class KartaService {
   GetCheckTicket(idKorisnika: string): Observable<any> {
     return this.http.get<any>(this.base_url + "/api/Kartas/GetProveri/" + idKorisnika);
   }
+
+  SaveTransaction(idTransakcije: string): Observable<any> {
+    //ili prosiriti kontroler za kupovinu karte pa i id transakcije staviti u istu tabelu Kartas
+    return this.http.get<any>(this.base_url + "/api/Kartas/TransakcijaKarta?idTransakcije=" + idTransakcije);
+  }
 }

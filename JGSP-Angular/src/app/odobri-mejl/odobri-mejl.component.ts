@@ -10,7 +10,7 @@ import { UserService } from '../services/user.service';
 export class OdobriMejlComponent implements OnInit {
   mejloviZaView: number[];
   selectedLine: string;
-  selectedMejl: string;
+  selectedMail: string;
   odgovor: string;
   slika: string;
 
@@ -18,13 +18,15 @@ export class OdobriMejlComponent implements OnInit {
 
   ngOnInit() {
     this.userService.GetMails().subscribe((stanicesa) => {
+      // this.selectedMail = stanicesa[0];
       this.mejloviZaView = stanicesa;
       err => console.log(err);
     });
   }
 
   Approve() {
-    this.userService.Approve(this.selectedMejl).subscribe((stanicesa) => {
+    console.log(this.selectedMail);
+    this.userService.Approve(this.selectedMail).subscribe((stanicesa) => {
       this.odgovor = stanicesa;
       err => console.log(err);
     });
@@ -32,7 +34,7 @@ export class OdobriMejlComponent implements OnInit {
 
   GetImg() {
     //potrebno je poslati id korisnika i primiti sa servera sliku ako postoji
-    this.userService.GetImage(this.selectedMejl).subscribe((slika) => {
+    this.userService.GetImage(this.selectedMail).subscribe((slika) => {
       this.slika = 'data:image/jpeg;base64,' + slika;
     }, err => {
       if (err.status === 400) {

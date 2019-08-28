@@ -3,7 +3,7 @@ namespace WebApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class migracijaNaKraju : DbMigration
+    public partial class SeedingDB : DbMigration
     {
         public override void Up()
         {
@@ -28,6 +28,7 @@ namespace WebApp.Migrations
                         IdCenovnik = c.Int(nullable: false, identity: true),
                         VaziOd = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         VaziDo = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Aktuelan = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.IdCenovnik);
             
@@ -41,6 +42,7 @@ namespace WebApp.Migrations
                         VaziDo = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         ApplicationUserId = c.String(maxLength: 128),
                         CenaKarteId = c.Int(nullable: false),
+                        idTransakcije = c.String(),
                     })
                 .PrimaryKey(t => t.IdKarte)
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
@@ -97,6 +99,16 @@ namespace WebApp.Migrations
                 .Index(t => t.LinijaId);
             
             CreateTable(
+                "dbo.Slikas",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ImageUrl = c.String(),
+                        Korisnik = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.StanicaLinijas",
                 c => new
                     {
@@ -142,6 +154,7 @@ namespace WebApp.Migrations
             DropColumn("dbo.AspNetUsers", "Datum");
             DropColumn("dbo.AspNetUsers", "Tip");
             DropTable("dbo.StanicaLinijas");
+            DropTable("dbo.Slikas");
             DropTable("dbo.Voziloes");
             DropTable("dbo.Stanicas");
             DropTable("dbo.RedVoznjes");

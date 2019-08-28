@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApp.Models;
@@ -23,7 +25,7 @@ namespace WebApp.Controllers
         public ValuesController(IUnitOfWork db)
         {
             Db = db;
-
+        
         }
         public ValuesController()
         {
@@ -43,7 +45,7 @@ namespace WebApp.Controllers
 
         // POST api/values
         [AllowAnonymous]
-
+ 
         [Route("GetZahtevi")]
         public List<string> GetValues()
         {
@@ -56,7 +58,7 @@ namespace WebApp.Controllers
                 if (!x.Odobren)
                     usernames.Add(x.UserName);
             });
-            
+
             return usernames;
         }
         // POST api/values
@@ -80,25 +82,24 @@ namespace WebApp.Controllers
             db.Entry(appUser).State = EntityState.Modified;
             db.SaveChanges();
 
-            string email = mejl.Replace('-', '.');
-            MailMessage mail = new MailMessage("ajovke@gmail.com", appUser.Email);
-            SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = true;
-            client.Credentials = new NetworkCredential("ajovke@gmail.com", "qcfu xays czwu bopw");    //iymr rzbn gpfs bpbg
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = true;
-            client.Host = "smtp.gmail.com";
+            //coajovic.web@gmail.com //tastatura14
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Korisniku " + appUser.UserName + " je odobren mejl!");
 
-            mail.Subject = "JGSP";
-            mail.Body = $"Vasa registracija je odobrena - {DateTime.Now}. {Environment.NewLine} Sada mozete kupovati karte na nasem servisu. {Environment.NewLine}";
-            client.Send(mail);
+            try
+            {
+                MailHelper.Send(appUser.Email, "Podaci", sb.ToString());
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
 
             return Ok("Odobrili ste mu registraciju!");
         }
 
         [AllowAnonymous]
+
         [Route("Verifikovan")]
         [ResponseType(typeof(string))]
         public IHttpActionResult GetVerifikovan()

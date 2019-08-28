@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewChecked, Input } from '@angular/core';
+import { KartaService } from '../services/karta.service';
 
- 
+
 declare let paypal: any;
 
 @Component({
@@ -9,17 +10,19 @@ declare let paypal: any;
   styleUrls: ['./paypal.component.css']
 })
 export class PaypalComponent implements OnInit {
+  constructor(private ks: KartaService) { }
+  cena: number = 0;
 
-  ngOnInit() {
-  }
+
+  ngOnInit() { }
   // @Input()
   // public cena: number;
 
   // addScript: boolean = false;
   // paypalLoad: boolean = true;
-  
+
   // finalAmount: number = this.cena;
- 
+
   // paypalConfig = {
   //   env: 'sandbox',
   //   client: {
@@ -42,7 +45,7 @@ export class PaypalComponent implements OnInit {
   //     })
   //   }
   // };
- 
+
   // ngAfterViewChecked(): void {
   //   if (!this.addScript) {
   //     this.addPaypalScript().then(() => {
@@ -51,7 +54,7 @@ export class PaypalComponent implements OnInit {
   //     })
   //   }
   // }
-  
+
   // addPaypalScript() {
   //   this.addScript = true;
   //   return new Promise((resolve, reject) => {
@@ -69,15 +72,19 @@ export class PaypalComponent implements OnInit {
       scriptElement.src = scriptUrl
       scriptElement.onload = resolve
       document.body.appendChild(scriptElement)
-  })}
+    })
+  }
 
   ngAfterViewInit(): void {
+    //console.log(this.cenaKarte)
+    // var c = this.cena; //cena karte u dolarima
+    var ks = this.ks;
     this.loadExternalScript("https://www.paypalobjects.com/api/checkout.js").then(() => {
       paypal.Button.render({
         env: 'sandbox',
         client: {
-          production: 'marko_srb-facilitator@hotmail.rs',
-          sandbox: 'AaKKhbw0-y_k74YKRjnPUQwzuqZepCRbQKpy3KHmRh-EFYm5TCNBkUl0naEscvskKOAfaKTLIjxFWD_T'
+          production: 'sb-897zd113414@business.example.com',
+          sandbox: 'AVpqV92cOs1IF7B7djyG_T7QMb1032VDJMofRn1LirX4Mre2caD4IqrxKydbQMXkJK-MkKt8jkOVHnUh'
         },
         commit: true,
         payment: function (data, actions) {
@@ -85,24 +92,27 @@ export class PaypalComponent implements OnInit {
             payment: {
               transactions: [
                 {
-                  amount: { total: '15.00', currency: 'USD' }
+                  amount: { total: '15', currency: 'USD' }
                 }
               ]
             }
-            
+
           })
         },
-        onAuthorize: function(data, actions) {
-          return actions.payment.execute().then(function(payment) {
+        onAuthorize: function (data, actions) {
+          return actions.payment.execute().then(function (payment) {
             // TODO
             // cart: "3VG18081MV5040101"
             // create_time: "2019-08-08T15:51:37Z"
             // id: "PAYID-LVGEKCQ1NP00636Y1192210E"
-            console.log(payment);
+
+            ks.SaveTransaction(payment.id).subscribe();
+            // console.log(payment);
+            // console.log(l);
           })
         }
       }, '#paypal-button');
     });
   }
- 
+
 }

@@ -17,12 +17,13 @@ namespace WebApp.Hubs
     {
         private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<LokacijaVozilaHub>();
 
+        private static List<Stanica> stanice = new List<Stanica>();
+        private static int stanicaBrojac = 0;
         private static Timer timer = new Timer();
-        private IUnitOfWork unitOfWork;
 
-        public LokacijaVozilaHub(IUnitOfWork unitOfWork)
+        public LokacijaVozilaHub()
         {
-            this.unitOfWork = unitOfWork;
+            
         }
 
         public void GetTime()
@@ -33,27 +34,68 @@ namespace WebApp.Hubs
 
         public void StartLocationServerUpdates()
         {
-            timer.Interval = 1000;
-            timer.Start();
-            timer.Elapsed += OnTimedEvent;
+            if (timer.Interval != 4000)
+            {
+                timer.Interval = 4000;
+                //timer.Start();
+                timer.Elapsed += OnTimedEvent;
+            }
+            timer.Enabled = true; 
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-             Lokacija();
+            StringBuilder busData = new StringBuilder("");
+            //var stanice = unitOfWork.Stanica.GetAll();
+            //var linijaBr3 = unitOfWork.Linija.Get(6);
+
+            //var s = stanice.ToList();
+
+            //var ss = s[2];
+            //busData.Append($"{ss.X}_{ss.Y};");
+            
+            if (stanice != null)
+            {
+
+                if (stanicaBrojac >= stanice.Count)
+                {
+                    stanicaBrojac = 0;
+                }
+                double[] niz = { stanice[stanicaBrojac].X, stanice[stanicaBrojac].Y };
+                //Clients.All.setRealTime(niz);
+                busData.Append($"{stanice[stanicaBrojac].X}_{stanice[stanicaBrojac].Y};");
+                Clients.All.getBusData(niz);
+                stanicaBrojac++;
+                
+                (source as Timer).Enabled = true;
+            }
+            
         }
 
         private void Lokacija()
         {
             StringBuilder busData = new StringBuilder("");
-            var stanice = unitOfWork.Stanica.GetAll();
-            var linijaBr3 = unitOfWork.Linija.Get(6);
+            //var stanice = unitOfWork.Stanica.GetAll();
+            //var linijaBr3 = unitOfWork.Linija.Get(6);
 
-            var s = stanice.ToList();
+            //var s = stanice.ToList();
 
-            var ss = s[2];
-            busData.Append($"{ss.X}_{ss.Y};");
-            
+            //var ss = s[2];
+            //busData.Append($"{ss.X}_{ss.Y};");
+
+            if (stanice != null)
+            {
+                if (stanicaBrojac >= stanice.Count)
+                {
+                    stanicaBrojac = 0;
+                }
+                double[] niz = { stanice[stanicaBrojac].X, stanice[stanicaBrojac].Y };
+                //Clients.All.setRealTime(niz);
+                busData.Append($"{stanice[stanicaBrojac].X}_{stanice[stanicaBrojac].Y};");
+                Clients.All.getBusData(busData.ToString());
+                stanicaBrojac++;
+            }
+
             //foreach(var s in stanice)
             //{
             //    var listaLinijaNaStaniciS = s.Linije.ToList();
@@ -68,31 +110,21 @@ namespace WebApp.Hubs
             //}
 
 
-            Clients.Group("Admins").getBusData(busData.ToString());
+            //Clients.Group("Admins").getBusData(busData.ToString());
         }
 
         public void StopLocationServerUpdates()
         {
             timer.Stop();
+            stanice = null;
+            //stanicaBrojac = 0;
         }
 
-        public void NotifyAdmins(int clickCount)
+        public void DodajStanice(List<Stanica> staniceIzKontrolera)
         {
-            hubContext.Clients.Group("Admins").userClicked($"Clicks: {clickCount}");
+            stanice = new List<Stanica>();
+            stanice = staniceIzKontrolera;
         }
 
-        public override Task OnConnected()
-        {
-            Groups.Add(Context.ConnectionId, "Admins");
-
-            return base.OnConnected();
-        }
-
-        public override Task OnDisconnected(bool stopCalled)
-        {
-            Groups.Remove(Context.ConnectionId, "Admins");
-
-            return base.OnDisconnected(stopCalled);
-        }
     }
 }

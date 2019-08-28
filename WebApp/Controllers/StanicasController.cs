@@ -94,12 +94,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            List<Kordinate> listaKordinata = new List<Kordinate>();
-            foreach (var stanica in izabranaLinija.Stanice)
+            List<Koordinate> listaKordinata = new List<Koordinate>();
+            izabranaLinija.Stanice.ToList().ForEach(x =>
             {
-                Kordinate k = new Kordinate() { x = stanica.X, y = stanica.Y, name = stanica.Naziv };
+                Koordinate k = new Koordinate() { x = x.X, y = x.Y, name = x.Naziv };
                 listaKordinata.Add(k);
-            }
+            });
 
             return Ok(listaKordinata);
         }
@@ -144,26 +144,27 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public IHttpActionResult PostStanica(StanicaBinding stanica)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                Stanica st = new Stanica();
+                st.Adresa = stanica.adresa;
+                st.Naziv = stanica.naziv;
+                st.X = stanica.x;
+                st.Y = stanica.y;
+                st.Linije = new List<Linija>();
+                Db.Stanica.Add(st);
+                Db.Complete();
+                return Ok("Uspesno ste dodali novu stanicu!");
             }
-            Stanica st = new Stanica();
-            st.Adresa = stanica.adresa;
-            st.Naziv = stanica.naziv;
-            st.X = stanica.x;
-            st.Y = stanica.y;
-            st.Linije = new List<Linija>();
-            Db.Stanica.Add(st);
-            Db.Complete();
-            return Ok("Uspesno ste dodali novu stanicu!");
+
+            return BadRequest(ModelState);
         }
         [AllowAnonymous]
         // DELETE: api/Stanicas/5
         [Route("IzbrisiStanicu/{ime}/{nesto}/{nesto2}")]
         public IHttpActionResult GetStanica(string ime, string nesto, string nesto2)
         {
-            Stanica stanica = db.Stanice.Where(x => x.Naziv == ime).FirstOrDefault();
+            Stanica stanica = db.Stanice.Where(x=> x.Naziv == ime).FirstOrDefault();
             if (stanica == null)
             {
                 return NotFound();
@@ -174,6 +175,107 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+
+        //[HttpPost]
+        //[Route("UploadImage/{username}")]
+        //[AllowAnonymous]
+        //public IHttpActionResult UploadImage(string username)
+        //{
+        //    var httpRequest = HttpContext.Current.Request;
+
+        //    if (httpRequest.Files.Count > 0)
+        //    {
+        //        foreach (string file in httpRequest.Files)
+        //        {
+        //            //var user = UserManager.FindByName(username);
+        //            var userStore = new UserStore<ApplicationUser>(db);
+        //            var userManager = new UserManager<ApplicationUser>(userStore);
+        //            ApplicationUser user = userManager.FindByName(username);
+        //            //Sacuvati sliku u bazi i povezati je sa registrovanim userom
+
+
+        //            //Passenger passenger = UnitOfWork.PassengerRepository.Get(id);
+
+        //            //if (passenger == null)
+        //            //{
+        //            //    return BadRequest("User does not exists.");
+        //            //}
+
+        //            //if (passenger.ImageUrl != null)
+        //            //{
+        //            //    File.Delete(HttpContext.Current.Server.MapPath("~/UploadFile/" + passenger.ImageUrl));
+        //            //}
+
+
+
+        //            var postedFile = httpRequest.Files[file];
+        //            string fileName = postedFile.FileName;
+        //            var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);
+
+        //            Slika slika = null;
+        //            IEnumerable<Slika> sveSlike = null;
+        //            try
+        //            {
+        //                sveSlike = Db.Slika.GetAll();
+        //            }
+        //            catch (Exception e)
+        //            {
+
+        //            }
+
+        //            bool korisnikImaSliku = false;
+
+        //            if (sveSlike != null)
+        //            {
+        //                foreach (var s in sveSlike)
+        //                {
+        //                    if (s.Korisnik == user.Id)
+        //                    {
+        //                        korisnikImaSliku = true;
+        //                        slika = s;
+        //                        break;
+        //                    }
+        //                }
+
+        //                if (korisnikImaSliku)
+        //                {
+        //                    Db.Slika.Update(slika);
+        //                    Db.Complete();
+        //                }
+        //                else
+        //                {
+        //                    slika = new Slika() { ImageUrl = filePath, Korisnik = user.Id };
+        //                    Db.Slika.Add(slika);
+        //                    Db.Complete();
+        //                }
+        //            }
+        //            else
+        //            {
+        //                slika = new Slika() { Id = 1, ImageUrl = filePath, Korisnik = user.Id };
+        //                try
+        //                {
+
+        //                    Db.Slika.Add(slika);
+        //                    Db.Complete();
+        //                }
+        //                catch (Exception e) { }
+        //            }
+
+
+        //            //UnitOfWork.PassengerRepository.Update(passenger);
+        //            //UnitOfWork.Complete();
+
+
+        //            postedFile.SaveAs(filePath);
+        //        }
+
+        //        return Ok();
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
         protected override void Dispose(bool disposing)
         {
@@ -190,7 +292,7 @@ namespace WebApp.Controllers
         }
     }
 
-    class Kordinate
+    class Koordinate
     {
         public double x { get; set; }
         public double y { get; set; }

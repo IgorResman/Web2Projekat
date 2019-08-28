@@ -22,8 +22,6 @@ namespace WebApp.Controllers
     [RoutePrefix("api/Linijas")]
     public class LinijasController : ApiController
     {
-
-
         private ApplicationDbContext db = new ApplicationDbContext();
         public IUnitOfWork Db { get; set; }
 
@@ -35,12 +33,14 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public List<string> GetLinije()
         {
-            IQueryable<Linija> linije = Db.Linija.GetAll().AsQueryable();
+            List<Linija> linije = Db.Linija.GetAll().AsQueryable().ToList();
             List<string> BrojeviLinija = new List<string>();
-            foreach (Linija l in linije)
+
+            linije.ForEach(x =>
             {
-                BrojeviLinija.Add(l.RedniBroj);
-            }
+                BrojeviLinija.Add(x.RedniBroj);
+            });
+
             return BrojeviLinija;
         }
 
@@ -50,29 +50,30 @@ namespace WebApp.Controllers
         [Route("GetLinija/{id}/{dan}")]
         public IHttpActionResult GetLinija(string id, string dan)
         {
-            IQueryable<Linija> linije = Db.Linija.GetAll().AsQueryable();
+            List<Linija> linije = Db.Linija.GetAll().AsQueryable().ToList();
 
-            string retvalue = "n";
-            foreach (Linija l in linije)
+            string retVal = String.Empty;
+
+            linije.ForEach(x =>
             {
-                if (l.RedniBroj == id)
+                if (x.RedniBroj.Equals(id))
                 {
-                    foreach (RedVoznje red in l.RedoviVoznje)
+                    foreach (RedVoznje red in x.RedoviVoznje)
                     {
                         if (red.DanUNedelji == dan)
                         {
-                            retvalue = red.Polasci;
+                            retVal = red.Polasci;
                         }
                     }
                 }
-            }
-            if (retvalue == "n")
+            });
+
+            if (!String.IsNullOrEmpty(retVal))
             {
-                return NotFound();
+                return Ok(retVal);
             }
 
-
-            return Ok(retvalue);
+            return NotFound();
         }
 
         // GET: api/Linijas/5   
@@ -81,9 +82,10 @@ namespace WebApp.Controllers
         [Route("GetLinija/{id}/{dan}/{p}")]
         public IHttpActionResult GetLinija(int id, string dan, string p)
         {
-            using (StreamReader r = new StreamReader("C:/Users/Coa/Desktop/w2/Jgsp-/sve.json"))
+            using (StreamReader r = new StreamReader(@"D:\WEB-FINAL\Jgsp-\sve.json"))
             {
                 string json = "", linijaPodela = "";
+                //string[] linije;
                 //Stanica s = new Stanica();
                 //Linija l = new Linija();
 
@@ -91,6 +93,7 @@ namespace WebApp.Controllers
                 {
                     string[] linijaNiz;
                     Stanica s = new Stanica();
+                    //json = r.ReadLine();
                     linijaPodela = json.Split('|')[0];
                     linijaNiz = linijaPodela.Split(',', '[', ']');
                     s.Adresa = json.Split('|')[3];
@@ -124,6 +127,10 @@ namespace WebApp.Controllers
 
                             if (linijaPostoji)
                             {
+                                //s.Linije.Add(l);
+                                //l.Stanice.Add(s);
+                                //Db.Linija.Update(l);
+                                //continue;
                                 List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
                                 foreach (var stanica in sveStanice)
                                 {
@@ -188,6 +195,27 @@ namespace WebApp.Controllers
                             }
                         }
                     }
+                    //List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
+                    //foreach (var stanica in sveStanice)
+                    //{
+                    //    if (stanica.Adresa == s.Adresa)
+                    //    {
+                    //        s = stanica;
+                    //        stanicaPostoji = true;
+                    //        break;
+                    //    }
+                    //}
+
+                    //if (stanicaPostoji)
+                    //{
+                    //    //Db.Stanica.Update(s);
+                    //    continue;
+                    //}
+                    //else
+                    //{
+                    //    Db.Stanica.Add(s);
+                    //}
+                    //Db.Complete();
                 }
             }
 
@@ -243,15 +271,16 @@ namespace WebApp.Controllers
         [Route("GetLinijaDodaj/{linija}")]
         public IHttpActionResult GetLinija(string linija)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                Linija lin = new Linija();
+                lin.RedniBroj = linija;
+                Db.Linija.Add(lin);
+                Db.Complete();
+                return Ok("Dodali ste novu liniju!");
             }
-            Linija lin = new Linija();
-            lin.RedniBroj = linija;
-            Db.Linija.Add(lin);
-            Db.Complete();
-            return Ok("Dodali ste novu liniju!");
+
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/Linijas/5

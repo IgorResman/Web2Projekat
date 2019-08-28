@@ -23,97 +23,97 @@ namespace WebApp.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
 
-            //if (!context.Roles.Any(r => r.Name == "Admin"))
+            if (!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Admin" };
+
+                manager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == "Controller"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Controller" };
+
+                manager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == "AppUser"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "AppUser" };
+
+                manager.Create(role);
+            }
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+
+
+            if (!context.Users.Any(u => u.UserName == "admin@yahoo.com"))
+            {
+                var user = new ApplicationUser() { Id = "admin", UserName = "admin@yahoo.com", Email = "admin@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Admin123!"), Tip = "Student", Name = "dasdas", Surname = "dasdasda", Odobren = false };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Admin");
+            }
+
+
+
+            if (!context.Users.Any(u => u.UserName == "appu@yahoo.com"))
+            {
+                var user = new ApplicationUser() { Id = "Kontrolor", UserName = "kontrolor@yahoo.com", Email = "kontrolor@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!"), Tip = "Penzioner", Name = "kontrolor", Surname = "KontrolorPrezime", Odobren = false };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Controller");
+            }
+            if (!context.RedoviVoznje.Any(u => u.Linija.RedniBroj == "1"))
+            {
+                RedVoznje red = new RedVoznje();
+                RedVoznje red2 = new RedVoznje();
+
+
+                red.Id = 1;
+                red2.Id = 2;
+
+
+                Linija lin = new Linija();
+                Linija lin2 = new Linija();
+                Linija lin3 = new Linija();
+                lin.Id = 1;
+                lin.RedniBroj = "1";
+                red.DanUNedelji = "Nedelja";
+                red.Polasci = "11:00 12:21";
+                red2.DanUNedelji = "Subota";
+                red2.Polasci = "12:00 15:21";
+
+                lin.RedoviVoznje = new List<RedVoznje>();
+
+                lin2.RedoviVoznje = new List<RedVoznje>();
+                lin3.RedoviVoznje = new List<RedVoznje>();
+                lin.RedoviVoznje.Add(red);
+                lin.RedoviVoznje.Add(red2);
+                lin2.RedniBroj = "2";
+                lin2.Id = 2;
+
+                lin3.RedniBroj = "3";
+                lin3.Id = 3;
+
+                context.RedoviVoznje.Add(red);
+                context.RedoviVoznje.Add(red2);
+                context.Linije.Add(lin);
+                context.Linije.Add(lin2);
+                context.Linije.Add(lin3);
+
+                context.SaveChanges();
+            }
+            //if (!context.CeneKarti.Any(u => u.Cena == 210312))
             //{
-            //    var store = new RoleStore<IdentityRole>(context);
-            //    var manager = new RoleManager<IdentityRole>(store);
-            //    var role = new IdentityRole { Name = "Admin" };
-
-            //    manager.Create(role);
-            //}
-
-            //if (!context.Roles.Any(r => r.Name == "Controller"))
-            //{
-            //    var store = new RoleStore<IdentityRole>(context);
-            //    var manager = new RoleManager<IdentityRole>(store);
-            //    var role = new IdentityRole { Name = "Controller" };
-
-            //    manager.Create(role);
-            //}
-
-            //if (!context.Roles.Any(r => r.Name == "AppUser"))
-            //{
-            //    var store = new RoleStore<IdentityRole>(context);
-            //    var manager = new RoleManager<IdentityRole>(store);
-            //    var role = new IdentityRole { Name = "AppUser" };
-
-            //    manager.Create(role);
-            //}
-
-            //var userStore = new UserStore<ApplicationUser>(context);
-            //var userManager = new UserManager<ApplicationUser>(userStore);
-
-
-            //if (!context.Users.Any(u => u.UserName == "admin@yahoo.com"))
-            //{
-            //    var user = new ApplicationUser() { Id = "admin", UserName = "admin@yahoo.com", Email = "admin@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Admin123!"), Tip = "Student", Name = "dasdas", Surname = "dasdasda", Odobren=false};
-            //    userManager.Create(user);
-            //    userManager.AddToRole(user.Id, "Admin");
-            //}
-
-
-
-            //if (!context.Users.Any(u => u.UserName == "appu@yahoo.com"))
-            //{ 
-            //    var user = new ApplicationUser() { Id = "Kontrolor", UserName = "kontrolor@yahoo.com", Email = "kontrolor@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu123!"), Tip = "Penzioner", Name = "kontrolor", Surname = "KontrolorPrezime", Odobren = false };
-            //    userManager.Create(user);
-            //    userManager.AddToRole(user.Id, "Controller");
-            //}
-            //if (!context.RedoviVoznje.Any(u => u.Linija.RedniBroj == "1"))
-            //{
-            //    RedVoznje red = new RedVoznje();
-            //    RedVoznje red2 = new RedVoznje();
-
-
-            //    red.Id = 1;
-            //    red2.Id = 2;
-
-
-            //    Linija lin = new Linija();
-            //    Linija lin2 = new Linija();
-            //    Linija lin3 = new Linija();
-            //    lin.Id = 1;
-            //    lin.RedniBroj = "1";
-            //    red.DanUNedelji = "Nedelja";
-            //    red.Polasci = "11:00 12:21";
-            //    red2.DanUNedelji = "Subota";
-            //    red2.Polasci = "12:00 15:21";
-
-            //    lin.RedoviVoznje = new List<RedVoznje>();
-
-            //    lin2.RedoviVoznje = new List<RedVoznje>();
-            //    lin3.RedoviVoznje = new List<RedVoznje>();
-            //    lin.RedoviVoznje.Add(red);
-            //    lin.RedoviVoznje.Add(red2);
-            //    lin2.RedniBroj = "2";
-            //    lin2.Id = 2;
-
-            //    lin3.RedniBroj = "3";
-            //    lin3.Id = 3;
-
-            //    context.RedoviVoznje.Add(red);
-            //    context.RedoviVoznje.Add(red2);
-            //    context.Linije.Add(lin);
-            //    context.Linije.Add(lin2);
-            //    context.Linije.Add(lin3);
-
-            //    context.SaveChanges();
-            //}
-            //if (!context.CeneKarti.Any(u => u.Cena==210312))
-            //{
-            //    //var user1 = new ApplicationUser() { Id = "appu1", UserName = "appu1@yahoo.com", Email = "appu1@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu1123!"), Tip = "student", Name = "dasdas", Surname = "dasdasda" };
-            //    //userManager.Create(user1);
-            //    //userManager.AddToRole(user1.Id, "AppUser");
+            //var user1 = new ApplicationUser() { Id = "appu1", UserName = "appu1@yahoo.com", Email = "appu1@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Appu1123!"), Tip = "student", Name = "dasdas", Surname = "dasdasda" };
+            //userManager.Create(user1);
+            //userManager.AddToRole(user1.Id, "AppUser");
 
 
 

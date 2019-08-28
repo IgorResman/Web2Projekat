@@ -37,10 +37,7 @@ namespace WebApp.Controllers
         public IHttpActionResult PostRedVoznje(RedBinding r)
         {
             Linija lin = Db.Linija.GetAll().Where(t => t.RedniBroj == r.linija).FirstOrDefault();
-            RedVoznje redV = new RedVoznje();
-            redV.LinijaId = lin.Id;
-            redV.DanUNedelji = r.dan;
-            redV.Polasci = r.red;
+            RedVoznje redV = new RedVoznje() { LinijaId = lin.Id, DanUNedelji = r.dan, Polasci = r.red };
             Db.RedVoznje.Add(redV);
             Db.Complete();
 
@@ -86,15 +83,15 @@ namespace WebApp.Controllers
         [ResponseType(typeof(RedVoznje))]
         public IHttpActionResult PostRedVoznje(RedVoznje redVoznje)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                db.RedoviVoznje.Add(redVoznje);
+                db.SaveChanges();
+
+                return CreatedAtRoute("DefaultApi", new { id = redVoznje.Id }, redVoznje);
             }
 
-            db.RedoviVoznje.Add(redVoznje);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = redVoznje.Id }, redVoznje);
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/RedVoznjes/5
@@ -102,15 +99,15 @@ namespace WebApp.Controllers
         public IHttpActionResult DeleteRedVoznje(int id)
         {
             RedVoznje redVoznje = db.RedoviVoznje.Find(id);
-            if (redVoznje == null)
+            if (redVoznje != null)
             {
-                return NotFound();
+                db.RedoviVoznje.Remove(redVoznje);
+                db.SaveChanges();
+
+                return Ok(redVoznje);
             }
 
-            db.RedoviVoznje.Remove(redVoznje);
-            db.SaveChanges();
-
-            return Ok(redVoznje);
+            return NotFound();
         }
 
         protected override void Dispose(bool disposing)

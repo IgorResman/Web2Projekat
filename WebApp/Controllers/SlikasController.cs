@@ -51,7 +51,22 @@ namespace WebApp.Controllers
                     var userManager = new UserManager<ApplicationUser>(userStore);
                     ApplicationUser user = userManager.FindByName(username);
                     //Sacuvati sliku u bazi i povezati je sa registrovanim userom
-                    
+
+
+                    //Passenger passenger = UnitOfWork.PassengerRepository.Get(id);
+
+                    //if (passenger == null)
+                    //{
+                    //    return BadRequest("User does not exists.");
+                    //}
+
+                    //if (passenger.ImageUrl != null)
+                    //{
+                    //    File.Delete(HttpContext.Current.Server.MapPath("~/UploadFile/" + passenger.ImageUrl));
+                    //}
+
+
+
                     var postedFile = httpRequest.Files[file];
                     string fileName = postedFile.FileName;
                     var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);
@@ -62,7 +77,7 @@ namespace WebApp.Controllers
                     {
                         sveSlike = Db.Slika.GetAll();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
@@ -102,8 +117,13 @@ namespace WebApp.Controllers
                             Db.Slika.Add(slika);
                             Db.Complete();
                         }
-                        catch (Exception e) { }
+                        catch (Exception) { }
                     }
+
+
+                    //UnitOfWork.PassengerRepository.Update(passenger);
+                    //UnitOfWork.Complete();
+
 
                     postedFile.SaveAs(filePath);
                 }
@@ -130,9 +150,9 @@ namespace WebApp.Controllers
 
             IEnumerable<Slika> slike = Db.Slika.GetAll();
 
-            foreach (var s in slike)
+            foreach(var s in slike)
             {
-                if (s.Korisnik == user.Id)
+                if(s.Korisnik == user.Id)
                 {
                     slikaKorisnika = s;
                     break;
@@ -143,8 +163,9 @@ namespace WebApp.Controllers
             {
                 return BadRequest("Korisnik nije dostavio sliku!");
             }
+            string[] arr = slikaKorisnika.ImageUrl.Split('\\');
 
-            string fileName = slikaKorisnika.ImageUrl.Split('\\')[8];
+            string fileName = slikaKorisnika.ImageUrl.Split('\\')[5];
 
             var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);
             FileInfo fileInfo = new FileInfo(filePath);

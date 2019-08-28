@@ -46,7 +46,8 @@ export class RegistracijaComponent implements OnInit {
   }
 
   DaLiJeStudentILIPenzioner() {
-    return this.registacijaForm.value.tip == 'student' || this.registacijaForm.value.tip == 'penzioner' ? true : false;
+    // console.log(this.registacijaForm.value.tip);
+    return this.registacijaForm.value.tip == 'Student' || this.registacijaForm.value.tip == 'Penzioner' ? true : false;
   }
 
   onFileSelected(event) {

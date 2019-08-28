@@ -33,11 +33,13 @@ export class SidebarComponent implements OnInit {
   }
 
   IsControllor() {
+    // console.log(this.role);
     return this.role == 'Kontrolor' ? true : false;
   }
 
   IsAdmin() {
-    return this.role == 'Admin' ? true : false;
+    // console.log(this.role);
+    return this.role == 'admin' ? true : false;
   }
 
   IsVerified() {

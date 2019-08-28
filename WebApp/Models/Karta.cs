@@ -21,6 +21,7 @@ namespace WebApp.Models
         public int CenaKarteId { get; set; }
         public CenaKarte CenaKarte { get; set; }
 
+        public string idTransakcije { get; set; }
 
         public Karta() { }
 

@@ -267,17 +267,9 @@
     <Compile Include="Migrations\201905222056072_InitialMigration.Designer.cs">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906140100596_migracijaNaKraju.cs" />
-    <Compile Include="Migrations\201906140100596_migracijaNaKraju.Designer.cs">
-      <DependentUpon>201906140100596_migracijaNaKraju.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906262358480_slikaMigracija.cs" />
-    <Compile Include="Migrations\201906262358480_slikaMigracija.Designer.cs">
-      <DependentUpon>201906262358480_slikaMigracija.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906271811486_CenovnikAktuelan.cs" />
-    <Compile Include="Migrations\201906271811486_CenovnikAktuelan.Designer.cs">
-      <DependentUpon>201906271811486_CenovnikAktuelan.cs</DependentUpon>
+    <Compile Include="Migrations\201908261319392_SeedingDB.cs" />
+    <Compile Include="Migrations\201908261319392_SeedingDB.Designer.cs">
+      <DependentUpon>201908261319392_SeedingDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -287,6 +279,7 @@
     <Compile Include="Models\Cenovnik.cs" />
     <Compile Include="Models\Karta.cs" />
     <Compile Include="Models\Linija.cs" />
+    <Compile Include="Models\MailHelper.cs" />
     <Compile Include="Models\RedVoznje.cs" />
     <Compile Include="Models\Slika.cs" />
     <Compile Include="Models\Stanica.cs" />
@@ -413,14 +406,8 @@
     <EmbeddedResource Include="Migrations\201905222056072_InitialMigration.resx">
       <DependentUpon>201905222056072_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906140100596_migracijaNaKraju.resx">
-      <DependentUpon>201906140100596_migracijaNaKraju.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906262358480_slikaMigracija.resx">
-      <DependentUpon>201906262358480_slikaMigracija.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906271811486_CenovnikAktuelan.resx">
-      <DependentUpon>201906271811486_CenovnikAktuelan.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908261319392_SeedingDB.resx">
+      <DependentUpon>201908261319392_SeedingDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

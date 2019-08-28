@@ -54,7 +54,7 @@ namespace WebApp
 
         private void ConfigureOAuthTokenConsumption(IAppBuilder app)
         {
-            string audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
+            string audienceId  = ConfigurationManager.AppSettings["as:AudienceId"];
             byte[] audienceSecret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["as:AudienceSecret"]);
 
             // Api controllers with an [Authorize] attribute will be validated with JWT

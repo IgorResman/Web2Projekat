@@ -27,7 +27,6 @@ namespace WebApp.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        WebApp.Persistence.ApplicationDbContext adb;
         public IUnitOfWork Db { get; set; }
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
@@ -431,7 +430,7 @@ namespace WebApp.Controllers
                         {
                             sveSlike = Db.Slika.GetAll();
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
 
                         }
@@ -470,7 +469,7 @@ namespace WebApp.Controllers
                             
                             Db.Slika.Add(slika);
                             Db.Complete();
-                        }catch(Exception e) { }
+                        }catch(Exception) { }
                         }
 
 
