@@ -35,11 +35,14 @@ width:100%;
 
 }
 
-body {
-   
-    color: #606468;
+body { 
+  color: #606468;
   font: 87.5%/1.5em 'Open Sans', sans-serif;
   margin: 0;
+}
+
+.custom-wrap {
+  margin-left: 150px;
 }
 
 a {

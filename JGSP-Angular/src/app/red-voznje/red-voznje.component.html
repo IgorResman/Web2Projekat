@@ -11,18 +11,24 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
 <div class="main">
+  <app-sidebar></app-sidebar>
   <div class="container">
     <div class="middle">
       <div id="login">
-
-        <p class="paragraf_text">Linija:<br>
+        <button class="btn btn-primary form-control">Linija:</button>
+        <hr>
+        <p class="paragraf_text">
           <select id="ButtonsHomePage" [(ngModel)]="selectedLine">
             <option *ngFor="let lin of linijeZaView">
               <a title="{{text}}">{{lin}}</a>
             </option>
           </select>
-          <br>
-          Dan:<br>
+        </p>
+        <br>
+        <button class="btn btn-primary form-control">Dan:</button>
+        <hr>
+        <br>
+        <p>
           <select id="ButtonsHomePage" [(ngModel)]="dan">
             <option *ngFor="let d of dani">
               {{d}}
@@ -31,26 +37,23 @@
         </p><br>
         <br>
 
-        <p><span class="fa "></span><button id="ButtonsHomePage" (click)="OnGetDepartures()">Red voznje</button></p>
+        <button class="form-control btn btn-success" (click)="OnGetDepartures()">Red voznje</button>
         <br>
-        <p class="paragraf_text">
-          <!-- iz baze:<br> -->
-          {{linija.linije}}
-          Polasci sa stanice:<br>
-          {{ras.polasci}}
-        </p>
+        <br>
+        <hr>
+        <!-- iz baze:<br> -->
+        {{linija.linije}}
+        <h4 class="form-control" style="background: white; color: black">Polasci:</h4>
+        <br>
+        {{ras.polasci}}
+        <br><br><br>
+        <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
         <!-- <button (click)="ParseJSON()" >Json</button> -->
-        <div class="clearfix"></div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="logo"> JGSP
         <div class="clearfix"></div>
       </div>
       <app-map id="mapaView" [linija]="selectedLine"></app-map>
     </div>
-    <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
     <br>
   </div>
   <br>
-  <!--<app-karta></app-karta>-->
 </div>

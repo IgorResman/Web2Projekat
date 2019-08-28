@@ -20,6 +20,7 @@ div.card {
   background: -ms-radial-gradient(center, ellipse cover,  #c8dbf1 1%,#c8dbf1 100%); /* IE10+ */
   background: radial-gradient(ellipse at center,  #c8dbf1 1%,#c8dbf1 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c8dbf1', endColorstr='#c8dbf1',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  margin-left: 300px;
 }
 
 .divider-text {
