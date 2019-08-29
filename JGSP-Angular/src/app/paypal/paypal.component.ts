@@ -76,8 +76,6 @@ export class PaypalComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    //console.log(this.cenaKarte)
-    // var c = this.cena; //cena karte u dolarima
     var ks = this.ks;
     this.loadExternalScript("https://www.paypalobjects.com/api/checkout.js").then(() => {
       paypal.Button.render({
@@ -107,8 +105,6 @@ export class PaypalComponent implements OnInit {
             // id: "PAYID-LVGEKCQ1NP00636Y1192210E"
 
             ks.SaveTransaction(payment.id).subscribe();
-            // console.log(payment);
-            // console.log(l);
           })
         }
       }, '#paypal-button');

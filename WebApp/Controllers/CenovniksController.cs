@@ -69,99 +69,137 @@ namespace WebApp.Controllers
         // POST: api/Promen
         [AllowAnonymous]
 
-        [Route("PromeniCenovnik")]
+        [Route("PostCenovnik")]
         public IHttpActionResult PostCenovnik(CenovnikBindingModel cenovnik)
         {
             Cenovnik cenNovi = new Cenovnik();
             cenNovi.VaziDo = DateTime.Parse(cenovnik.vaziDo);
             cenNovi.VaziOd = DateTime.Parse(cenovnik.vaziOd);
             cenNovi.IdCenovnik = cenovnik.id;
-            CenaKarte SD = new CenaKarte();
-            CenaKarte SV = new CenaKarte();
-            CenaKarte SM = new CenaKarte();
-            CenaKarte SG = new CenaKarte();
-            CenaKarte PD = new CenaKarte();
-            CenaKarte PV = new CenaKarte();
-            CenaKarte PM = new CenaKarte();
-            CenaKarte PG = new CenaKarte();
-            CenaKarte OD = new CenaKarte();
-            CenaKarte OV = new CenaKarte();
-            CenaKarte OM = new CenaKarte();
-            CenaKarte OG = new CenaKarte();
-            SD.Cena = cenovnik.dnevna - (cenovnik.dnevna * cenovnik.popustStudent / 100);
-            SM.Cena = cenovnik.mesecna - (cenovnik.mesecna * cenovnik.popustStudent / 100);
-            SG.Cena = cenovnik.godisnja - (cenovnik.godisnja * cenovnik.popustStudent / 100);
-            SV.Cena = cenovnik.vremenska - (cenovnik.vremenska * cenovnik.popustStudent / 100);
-            PD.Cena = cenovnik.dnevna - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
-            PM.Cena = cenovnik.mesecna - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
-            PG.Cena = cenovnik.godisnja - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
-            PV.Cena = cenovnik.vremenska - (cenovnik.dnevna * cenovnik.popustPenzija / 100);
-            OD.Cena = cenovnik.dnevna;
-            OM.Cena = cenovnik.mesecna;
-            OG.Cena = cenovnik.godisnja;
-            OV.Cena = cenovnik.vremenska;
-            SD.TipKupca = "Student";
-            SM.TipKupca = "Student";
-            SG.TipKupca = "Student";
-            SV.TipKupca = "Student";
-            PD.TipKupca = "Penzioner";
-            PM.TipKupca = "Penzioner";
-            PG.TipKupca = "Penzioner";
-            PV.TipKupca = "Penzioner";
-            OD.TipKupca = "Obican";
-            OM.TipKupca = "Obican";
-            OG.TipKupca = "Obican";
-            OV.TipKupca = "Obican";
-            SD.TipKarte = "Dnevna";
-            SM.TipKarte = "Mesecna";
-            SG.TipKarte = "Godisnja";
-            SV.TipKarte = "Vremenska";
-            PD.TipKarte = "Dnevna";
-            PM.TipKarte = "Mesecna";
-            PG.TipKarte = "Godisnja";
-            PV.TipKarte = "Vremenska";
-            OD.TipKarte = "Dnevna";
-            OM.TipKarte = "Mesecna";
-            OG.TipKarte = "Godisnja";
-            OV.TipKarte = "Vremenska";
             cenNovi.CeneKarti = new List<CenaKarte>();
+
+            CenaKarte SD = new CenaKarte()
+            {
+                Cena = cenovnik.dnevna - (cenovnik.dnevna * cenovnik.popustStudent / 100),
+                TipKupca = "Student",
+                TipKarte = "Dnevna",
+                CenovnikId = cenNovi.IdCenovnik
+            };
             cenNovi.CeneKarti.Add(SD);
-            cenNovi.CeneKarti.Add(SM);
-            cenNovi.CeneKarti.Add(SV);
-            cenNovi.CeneKarti.Add(SG);
-            cenNovi.CeneKarti.Add(OM);
-            cenNovi.CeneKarti.Add(OG);
-            cenNovi.CeneKarti.Add(OV);
-            cenNovi.CeneKarti.Add(OD);
-            cenNovi.CeneKarti.Add(PD);
-            cenNovi.CeneKarti.Add(PV);
-            cenNovi.CeneKarti.Add(PM);
-            cenNovi.CeneKarti.Add(PG);
-            SD.CenovnikId = cenNovi.IdCenovnik;
-            SM.CenovnikId = cenNovi.IdCenovnik;
-            SG.CenovnikId = cenNovi.IdCenovnik;
-            SV.CenovnikId = cenNovi.IdCenovnik;
-            PD.CenovnikId = cenNovi.IdCenovnik;
-            PM.CenovnikId = cenNovi.IdCenovnik;
-            PG.CenovnikId = cenNovi.IdCenovnik;
-            PV.CenovnikId = cenNovi.IdCenovnik;
-            OD.CenovnikId = cenNovi.IdCenovnik;
-            OM.CenovnikId = cenNovi.IdCenovnik;
-            OG.CenovnikId = cenNovi.IdCenovnik;
-            OV.CenovnikId = cenNovi.IdCenovnik;
-            Db.Cenovnik.Add((cenNovi));
-            Db.CenaKarte.Add(PM);
-            Db.CenaKarte.Add(PV);
-            Db.CenaKarte.Add(PG);
-            Db.CenaKarte.Add(PD);
-            Db.CenaKarte.Add(OM);
-            Db.CenaKarte.Add(OG);
-            Db.CenaKarte.Add(OV);
-            Db.CenaKarte.Add(OD);
-            Db.CenaKarte.Add(SM);
             Db.CenaKarte.Add(SD);
-            Db.CenaKarte.Add(SG);
+
+            CenaKarte SV = new CenaKarte()
+            {
+                Cena = cenovnik.vremenska - (cenovnik.vremenska * cenovnik.popustStudent / 100),
+                TipKupca = "Student",
+                TipKarte = "Vremenska",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(SV);
             Db.CenaKarte.Add(SV);
+
+            CenaKarte SM = new CenaKarte()
+            {
+                Cena = cenovnik.mesecna - (cenovnik.mesecna * cenovnik.popustStudent / 100),
+                TipKupca = "Student",
+                TipKarte = "Mesecna",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(SM);
+            Db.CenaKarte.Add(SM);
+
+            CenaKarte SG = new CenaKarte()
+            {
+                Cena = cenovnik.godisnja - (cenovnik.godisnja * cenovnik.popustStudent / 100),
+                TipKupca = "Student",
+                TipKarte = "Godisnja",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(SG);
+            Db.CenaKarte.Add(SG);
+
+            CenaKarte PD = new CenaKarte()
+            {
+                Cena = cenovnik.dnevna - (cenovnik.dnevna * cenovnik.popustPenzija / 100),
+                TipKupca = "Penzioner",
+                TipKarte = "Dnevna",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(PD);
+            Db.CenaKarte.Add(PD);
+
+            CenaKarte PV = new CenaKarte()
+            {
+                Cena = cenovnik.vremenska - (cenovnik.dnevna * cenovnik.popustPenzija / 100),
+                TipKupca = "Penzioner",
+                TipKarte = "Vremenska",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(PV);
+            Db.CenaKarte.Add(PV);
+
+            CenaKarte PM = new CenaKarte()
+            {
+                Cena = cenovnik.mesecna - (cenovnik.dnevna * cenovnik.popustPenzija / 100),
+                TipKupca = "Penzioner",
+                TipKarte = "Mesecna",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(PM);
+            Db.CenaKarte.Add(PM);
+
+            CenaKarte PG = new CenaKarte()
+            {
+                Cena = cenovnik.godisnja - (cenovnik.dnevna * cenovnik.popustPenzija / 100),
+                TipKupca = "Penzioner",
+                TipKarte = "Godisnja",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(PG);
+            Db.CenaKarte.Add(PG);
+
+            CenaKarte OD = new CenaKarte()
+            {
+                Cena = cenovnik.dnevna,
+                TipKupca = "Obican",
+                TipKarte = "Dnevna",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(OD);
+            Db.CenaKarte.Add(OD);
+
+            CenaKarte OV = new CenaKarte()
+            {
+                Cena = cenovnik.vremenska,
+                TipKupca = "Obican",
+                TipKarte = "Vremenska",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(OV);
+            Db.CenaKarte.Add(OV);
+
+            CenaKarte OM = new CenaKarte()
+            {
+                Cena = cenovnik.mesecna,
+                TipKupca = "Obican",
+                TipKarte = "Mesecna",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(OM);
+            Db.CenaKarte.Add(OM);
+
+            CenaKarte OG = new CenaKarte()
+            {
+                Cena = cenovnik.godisnja,
+                TipKupca = "Obican",
+                TipKarte = "Godisnja",
+                CenovnikId = cenNovi.IdCenovnik
+            };
+            cenNovi.CeneKarti.Add(OG);
+            Db.CenaKarte.Add(OG);
+
+            Db.Cenovnik.Add((cenNovi));
+
             Db.Complete();
 
             return Ok();
@@ -180,7 +218,7 @@ namespace WebApp.Controllers
             db.Cenovnici.Remove(cenovnik);
             db.SaveChanges();
 
-            return Ok("obrisan cenovnik");
+            return Ok("Obrisan cenovnik");
         }
 
         protected override void Dispose(bool disposing)

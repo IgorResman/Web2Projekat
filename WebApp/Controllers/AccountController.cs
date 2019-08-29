@@ -131,7 +131,7 @@ namespace WebApp.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -158,7 +158,7 @@ namespace WebApp.Controllers
 
             return Ok();
         }
-   
+
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
@@ -264,9 +264,9 @@ namespace WebApp.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -334,8 +334,8 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, Tip = model.Tip, Name= model.Name, Surname = model.Surname, Datum = model.Date, Password= model.Password, ConfirmPassword= model.ConfirmPassword };
-         
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, Tip = model.Tip, Name = model.Name, Surname = model.Surname, Datum = model.Date, Password = model.Password, ConfirmPassword = model.ConfirmPassword };
+
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
             //UserManager.AddToRole();
 
@@ -375,7 +375,7 @@ namespace WebApp.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }
@@ -398,94 +398,95 @@ namespace WebApp.Controllers
         {
             var httpRequest = HttpContext.Current.Request;
 
-                if (httpRequest.Files.Count > 0)
+            if (httpRequest.Files.Count > 0)
+            {
+                foreach (string file in httpRequest.Files)
                 {
-                    foreach (string file in httpRequest.Files)
+                    var user = UserManager.FindByName(username);
+                    //Sacuvati sliku u bazi i povezati je sa registrovanim userom
+
+
+                    //Passenger passenger = UnitOfWork.PassengerRepository.Get(id);
+
+                    //if (passenger == null)
+                    //{
+                    //    return BadRequest("User does not exists.");
+                    //}
+
+                    //if (passenger.ImageUrl != null)
+                    //{
+                    //    File.Delete(HttpContext.Current.Server.MapPath("~/UploadFile/" + passenger.ImageUrl));
+                    //}
+
+
+
+                    var postedFile = httpRequest.Files[file];
+                    string fileName = postedFile.FileName;
+                    var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);
+
+                    Slika slika = null;
+                    IEnumerable<Slika> sveSlike = null;
+                    try
                     {
-                        var user = UserManager.FindByName(username);
-                        //Sacuvati sliku u bazi i povezati je sa registrovanim userom
+                        sveSlike = Db.Slika.GetAll();
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
 
+                    bool korisnikImaSliku = false;
 
-                        //Passenger passenger = UnitOfWork.PassengerRepository.Get(id);
-
-                        //if (passenger == null)
-                        //{
-                        //    return BadRequest("User does not exists.");
-                        //}
-
-                        //if (passenger.ImageUrl != null)
-                        //{
-                        //    File.Delete(HttpContext.Current.Server.MapPath("~/UploadFile/" + passenger.ImageUrl));
-                        //}
-
-
-
-                        var postedFile = httpRequest.Files[file]; 
-                        string fileName = postedFile.FileName;
-                        var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);
-
-                        Slika slika = null;
-                        IEnumerable<Slika> sveSlike = null;
-                        try
+                    if (sveSlike != null)
+                    {
+                        foreach (var s in sveSlike)
                         {
-                            sveSlike = Db.Slika.GetAll();
-                        }
-                        catch (Exception)
-                        {
-
+                            if (s.Korisnik == user.Id)
+                            {
+                                korisnikImaSliku = true;
+                                slika = s;
+                                break;
+                            }
                         }
 
-                        bool korisnikImaSliku = false;
-
-                        if(sveSlike != null)
+                        if (korisnikImaSliku)
                         {
-                            foreach(var s in sveSlike)
-                            {
-                                if(s.Korisnik == user.Id)
-                                {
-                                    korisnikImaSliku = true;
-                                    slika = s;
-                                    break;
-                                }
-                            }
-
-                            if (korisnikImaSliku)
-                            {
-                                Db.Slika.Update(slika);
-                                Db.Complete();
-                            }
-                            else
-                            {
-                                slika = new Slika() { ImageUrl = filePath, Korisnik = user.Id };
-                                Db.Slika.Add(slika);
-                                Db.Complete();
-                            }
+                            Db.Slika.Update(slika);
+                            Db.Complete();
                         }
                         else
                         {
                             slika = new Slika() { ImageUrl = filePath, Korisnik = user.Id };
-                        try
-                        {
-                            
                             Db.Slika.Add(slika);
                             Db.Complete();
-                        }catch(Exception) { }
                         }
+                    }
+                    else
+                    {
+                        slika = new Slika() { ImageUrl = filePath, Korisnik = user.Id };
+                        try
+                        {
 
-
-                        //UnitOfWork.PassengerRepository.Update(passenger);
-                        //UnitOfWork.Complete();
-
-
-                        postedFile.SaveAs(filePath);
+                            Db.Slika.Add(slika);
+                            Db.Complete();
+                        }
+                        catch (Exception) { }
                     }
 
-                    return Ok();
+
+                    //UnitOfWork.PassengerRepository.Update(passenger);
+                    //UnitOfWork.Complete();
+
+
+                    postedFile.SaveAs(filePath);
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         #region Helpers

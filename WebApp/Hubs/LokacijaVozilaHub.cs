@@ -125,6 +125,5 @@ namespace WebApp.Hubs
             stanice = new List<Stanica>();
             stanice = staniceIzKontrolera;
         }
-
     }
 }

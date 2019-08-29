@@ -12,7 +12,7 @@ export class CenovnikService {
   constructor(private http: HttpClient) { }
 
   AddCenovnik(cenovnik: CenovnikBindingModel): Observable<any> {
-    return this.http.post<any>(this.base_url + "/PromeniCenovnik", cenovnik);
+    return this.http.post<any>(this.base_url + "/PostCenovnik", cenovnik);
   }
 
   DeleteCenovnik(id: number): Observable<any> {
