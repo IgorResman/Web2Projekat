@@ -81,8 +81,8 @@ export class PaypalComponent implements OnInit {
       paypal.Button.render({
         env: 'sandbox',
         client: {
-          production: 'sb-897zd113414@business.example.com',
-          sandbox: 'AVpqV92cOs1IF7B7djyG_T7QMb1032VDJMofRn1LirX4Mre2caD4IqrxKydbQMXkJK-MkKt8jkOVHnUh'
+          production: 'sb-icy847118071@business.example.com',
+          sandbox: 'AbyLs_0fZpzMyRlwcZe84zzKR4pzdn_Pf7pDuWwn_gNZ3262wE4pjR6Ct1lF3V7mYNORGWNguMBud3RH'
         },
         commit: true,
         payment: function (data, actions) {
@@ -90,7 +90,7 @@ export class PaypalComponent implements OnInit {
             payment: {
               transactions: [
                 {
-                  amount: { total: '15', currency: 'USD' }
+                  amount: { total: '5', currency: 'USD' }
                 }
               ]
             }

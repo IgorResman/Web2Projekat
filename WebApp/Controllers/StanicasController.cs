@@ -68,7 +68,7 @@ namespace WebApp.Controllers
             Db.Linija.Update(lin);
             Db.Complete();
 
-            return Ok("");
+            return Ok("Spojeni su linija: " + linija + " i stanica: " + stanica);
         }
 
         // GET: api/Linijas/5   
@@ -175,107 +175,6 @@ namespace WebApp.Controllers
 
             return Ok();
         }
-
-        //[HttpPost]
-        //[Route("UploadImage/{username}")]
-        //[AllowAnonymous]
-        //public IHttpActionResult UploadImage(string username)
-        //{
-        //    var httpRequest = HttpContext.Current.Request;
-
-        //    if (httpRequest.Files.Count > 0)
-        //    {
-        //        foreach (string file in httpRequest.Files)
-        //        {
-        //            //var user = UserManager.FindByName(username);
-        //            var userStore = new UserStore<ApplicationUser>(db);
-        //            var userManager = new UserManager<ApplicationUser>(userStore);
-        //            ApplicationUser user = userManager.FindByName(username);
-        //            //Sacuvati sliku u bazi i povezati je sa registrovanim userom
-
-
-        //            //Passenger passenger = UnitOfWork.PassengerRepository.Get(id);
-
-        //            //if (passenger == null)
-        //            //{
-        //            //    return BadRequest("User does not exists.");
-        //            //}
-
-        //            //if (passenger.ImageUrl != null)
-        //            //{
-        //            //    File.Delete(HttpContext.Current.Server.MapPath("~/UploadFile/" + passenger.ImageUrl));
-        //            //}
-
-
-
-        //            var postedFile = httpRequest.Files[file];
-        //            string fileName = postedFile.FileName;
-        //            var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);
-
-        //            Slika slika = null;
-        //            IEnumerable<Slika> sveSlike = null;
-        //            try
-        //            {
-        //                sveSlike = Db.Slika.GetAll();
-        //            }
-        //            catch (Exception e)
-        //            {
-
-        //            }
-
-        //            bool korisnikImaSliku = false;
-
-        //            if (sveSlike != null)
-        //            {
-        //                foreach (var s in sveSlike)
-        //                {
-        //                    if (s.Korisnik == user.Id)
-        //                    {
-        //                        korisnikImaSliku = true;
-        //                        slika = s;
-        //                        break;
-        //                    }
-        //                }
-
-        //                if (korisnikImaSliku)
-        //                {
-        //                    Db.Slika.Update(slika);
-        //                    Db.Complete();
-        //                }
-        //                else
-        //                {
-        //                    slika = new Slika() { ImageUrl = filePath, Korisnik = user.Id };
-        //                    Db.Slika.Add(slika);
-        //                    Db.Complete();
-        //                }
-        //            }
-        //            else
-        //            {
-        //                slika = new Slika() { Id = 1, ImageUrl = filePath, Korisnik = user.Id };
-        //                try
-        //                {
-
-        //                    Db.Slika.Add(slika);
-        //                    Db.Complete();
-        //                }
-        //                catch (Exception e) { }
-        //            }
-
-
-        //            //UnitOfWork.PassengerRepository.Update(passenger);
-        //            //UnitOfWork.Complete();
-
-
-        //            postedFile.SaveAs(filePath);
-        //        }
-
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
 
         protected override void Dispose(bool disposing)
         {

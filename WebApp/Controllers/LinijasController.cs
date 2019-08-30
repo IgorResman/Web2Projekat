@@ -77,158 +77,146 @@ namespace WebApp.Controllers
         }
 
         // GET: api/Linijas/5   
-        [AllowAnonymous]
-        [ResponseType(typeof(string))]
-        [Route("GetLinija/{id}/{dan}/{p}")]
-        public IHttpActionResult GetLinija(int id, string dan, string p)
-        {
-            using (StreamReader r = new StreamReader(@"D:\WEB-FINAL\Jgsp-\sve.json"))
-            {
-                string json = "", linijaPodela = "";
-                //string[] linije;
-                //Stanica s = new Stanica();
-                //Linija l = new Linija();
+        //[AllowAnonymous]
+        //[ResponseType(typeof(string))]
+        //[Route("GetLinija/{id}/{dan}/{p}")]
+        //public IHttpActionResult SeedDBWithLines(int id, string dan, string p)
+        //{
+        //    using (StreamReader r = new StreamReader(@"D:\WEB-FINAL\Jgsp-\sve.json"))
+        //    {
+        //        string json = "", linijaPodela = "";
 
-                while ((json = r.ReadLine()) != null)
-                {
-                    string[] linijaNiz;
-                    Stanica s = new Stanica();
-                    //json = r.ReadLine();
-                    linijaPodela = json.Split('|')[0];
-                    linijaNiz = linijaPodela.Split(',', '[', ']');
-                    s.Adresa = json.Split('|')[3];
-                    string brojX = json.Split('|')[1];
-                    string brojY = json.Split('|')[2];
-                    s.X = double.Parse(brojX, CultureInfo.InvariantCulture);
-                    s.Y = double.Parse(brojY, CultureInfo.InvariantCulture);
-                    s.Naziv = s.Adresa = json.Split('|')[3];
-                    s.Linije = new List<Linija>();
-                    bool stanicaPostoji = false;
-                    List<Linija> stanLinije = new List<Linija>();
+        //        while ((json = r.ReadLine()) != null)
+        //        {
+        //            string[] linijaNiz;
+        //            Stanica s = new Stanica();
+        //            linijaPodela = json.Split('|')[0];
+        //            linijaNiz = linijaPodela.Split(',', '[', ']');
+        //            s.Adresa = json.Split('|')[3];
+        //            string brojX = json.Split('|')[1];
+        //            string brojY = json.Split('|')[2];
+        //            s.X = double.Parse(brojX, CultureInfo.InvariantCulture);
+        //            s.Y = double.Parse(brojY, CultureInfo.InvariantCulture);
+        //            s.Naziv = s.Adresa = json.Split('|')[3];
+        //            s.Linije = new List<Linija>();
+        //            bool stanicaPostoji = false;
+        //            List<Linija> stanLinije = new List<Linija>();
 
-                    foreach (var lin in linijaNiz)
-                    {
-                        if (lin != "" && lin != "    \"")
-                        {
-                            Linija l = new Linija() { RedniBroj = lin };
-                            List<Linija> sveLinije = Db.Linija.GetAll().ToList();
-                            bool linijaPostoji = false;
+        //            foreach (var lin in linijaNiz)
+        //            {
+        //                if (lin != "" && lin != "    \"")
+        //                {
+        //                    Linija l = new Linija() { RedniBroj = lin };
+        //                    List<Linija> sveLinije = Db.Linija.GetAll().ToList();
+        //                    bool linijaPostoji = false;
 
-                            foreach (var linija in sveLinije)
-                            {
-                                if (linija.RedniBroj == lin)
-                                {
-                                    l = null;
-                                    l = linija;
-                                    linijaPostoji = true;
-                                    break;
-                                }
-                            }
+        //                    foreach (var linija in sveLinije)
+        //                    {
+        //                        if (linija.RedniBroj == lin)
+        //                        {
+        //                            l = null;
+        //                            l = linija;
+        //                            linijaPostoji = true;
+        //                            break;
+        //                        }
+        //                    }
 
-                            if (linijaPostoji)
-                            {
-                                //s.Linije.Add(l);
-                                //l.Stanice.Add(s);
-                                //Db.Linija.Update(l);
-                                //continue;
-                                List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
-                                foreach (var stanica in sveStanice)
-                                {
-                                    if (stanica.Adresa == s.Adresa && stanica.X == s.X && stanica.Y == s.Y)
-                                    {
-                                        s = null;
-                                        s = stanica;
-                                        stanicaPostoji = true;
-                                        break;
-                                    }
-                                }
+        //                    if (linijaPostoji)
+        //                    {
+        //                        //s.Linije.Add(l);
+        //                        //l.Stanice.Add(s);
+        //                        //Db.Linija.Update(l);
+        //                        //continue;
+        //                        List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
+        //                        foreach (var stanica in sveStanice)
+        //                        {
+        //                            if (stanica.Adresa == s.Adresa && stanica.X == s.X && stanica.Y == s.Y)
+        //                            {
+        //                                s = null;
+        //                                s = stanica;
+        //                                stanicaPostoji = true;
+        //                                break;
+        //                            }
+        //                        }
 
-                                if (stanicaPostoji)
-                                {
-                                    l.Stanice.Add(s);
-                                    s.Linije.Add(l);
-                                    Db.Linija.Update(l);
-                                    Db.Stanica.Update(s);
-                                    //continue;
-                                }
-                                else
-                                {
-                                    l.Stanice.Add(s);
-                                    s.Linije.Add(l);
-                                    Db.Linija.Update(l);
-                                    Db.Stanica.Add(s);
-                                }
-                                Db.Complete();
-                            }
-                            else
-                            {
-                                List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
-                                foreach (var stanica in sveStanice)
-                                {
-                                    if (stanica.Adresa == s.Adresa)
-                                    {
-                                        s = null;
-                                        s = stanica;
-                                        stanicaPostoji = true;
-                                        break;
-                                    }
-                                }
+        //                        if (stanicaPostoji)
+        //                        {
+        //                            l.Stanice.Add(s);
+        //                            s.Linije.Add(l);
+        //                            Db.Linija.Update(l);
+        //                            Db.Stanica.Update(s);
+        //                            //continue;
+        //                        }
+        //                        else
+        //                        {
+        //                            l.Stanice.Add(s);
+        //                            s.Linije.Add(l);
+        //                            Db.Linija.Update(l);
+        //                            Db.Stanica.Add(s);
+        //                        }
+        //                        Db.Complete();
+        //                    }
+        //                    else
+        //                    {
+        //                        List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
+        //                        foreach (var stanica in sveStanice)
+        //                        {
+        //                            if (stanica.Adresa == s.Adresa)
+        //                            {
+        //                                s = null;
+        //                                s = stanica;
+        //                                stanicaPostoji = true;
+        //                                break;
+        //                            }
+        //                        }
 
-                                if (stanicaPostoji)
-                                {
-                                    s.Linije.Add(l);
-                                    Db.Stanica.Update(s);
-                                    //Db.Stanica.Update(s);
-                                    //continue;
-                                }
-                                else
-                                {
-                                    s.Linije = new List<Linija>();
-                                    s.Linije.Add(l);
-                                    Db.Stanica.Add(s);
-                                }
-                                //s.Linije.Add(l);
-                                l.Stanice = new List<Stanica>();
-                                l.Stanice.Add(s);
-                                Db.Linija.Add(l);
-                                Db.Complete();
-                            }
-                        }
-                    }
-                    //List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
-                    //foreach (var stanica in sveStanice)
-                    //{
-                    //    if (stanica.Adresa == s.Adresa)
-                    //    {
-                    //        s = stanica;
-                    //        stanicaPostoji = true;
-                    //        break;
-                    //    }
-                    //}
+        //                        if (stanicaPostoji)
+        //                        {
+        //                            s.Linije.Add(l);
+        //                            Db.Stanica.Update(s);
+        //                            //Db.Stanica.Update(s);
+        //                            //continue;
+        //                        }
+        //                        else
+        //                        {
+        //                            s.Linije = new List<Linija>();
+        //                            s.Linije.Add(l);
+        //                            Db.Stanica.Add(s);
+        //                        }
+        //                        //s.Linije.Add(l);
+        //                        l.Stanice = new List<Stanica>();
+        //                        l.Stanice.Add(s);
+        //                        Db.Linija.Add(l);
+        //                        Db.Complete();
+        //                    }
+        //                }
+        //            }
+        //            //List<Stanica> sveStanice = Db.Stanica.GetAll().ToList();
+        //            //foreach (var stanica in sveStanice)
+        //            //{
+        //            //    if (stanica.Adresa == s.Adresa)
+        //            //    {
+        //            //        s = stanica;
+        //            //        stanicaPostoji = true;
+        //            //        break;
+        //            //    }
+        //            //}
 
-                    //if (stanicaPostoji)
-                    //{
-                    //    //Db.Stanica.Update(s);
-                    //    continue;
-                    //}
-                    //else
-                    //{
-                    //    Db.Stanica.Add(s);
-                    //}
-                    //Db.Complete();
-                }
-            }
+        //            //if (stanicaPostoji)
+        //            //{
+        //            //    //Db.Stanica.Update(s);
+        //            //    continue;
+        //            //}
+        //            //else
+        //            //{
+        //            //    Db.Stanica.Add(s);
+        //            //}
+        //            //Db.Complete();
+        //        }
+        //    }
 
-            string retvalue = "n";
-
-            if (retvalue == "n")
-            {
-                return NotFound();
-            }
-
-
-            return Ok(retvalue);
-        }
+        //    return NotFound();
+        //}
 
         // PUT: api/Linijas/5
         [ResponseType(typeof(void))]

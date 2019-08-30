@@ -79,7 +79,7 @@ namespace WebApp.Controllers
                     }
                     catch (Exception)
                     {
-
+                        throw;
                     }
 
                     bool korisnikImaSliku = false;
@@ -113,18 +113,15 @@ namespace WebApp.Controllers
                         slika = new Slika() { Id = 1, ImageUrl = filePath, Korisnik = user.Id };
                         try
                         {
-
                             Db.Slika.Add(slika);
                             Db.Complete();
                         }
-                        catch (Exception) { }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
                     }
-
-
-                    //UnitOfWork.PassengerRepository.Update(passenger);
-                    //UnitOfWork.Complete();
-
-
+                    
                     postedFile.SaveAs(filePath);
                 }
 
@@ -150,9 +147,9 @@ namespace WebApp.Controllers
 
             IEnumerable<Slika> slike = Db.Slika.GetAll();
 
-            foreach(var s in slike)
+            foreach (var s in slike)
             {
-                if(s.Korisnik == user.Id)
+                if (s.Korisnik == user.Id)
                 {
                     slikaKorisnika = s;
                     break;

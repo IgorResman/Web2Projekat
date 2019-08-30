@@ -426,26 +426,23 @@ namespace WebApp.Controllers
             var id = User.Identity.GetUserId();
             ApplicationUser u = userManager.FindById(id);
 
-            Karta karta = new Karta();
-            List<Karta> listaKarti = db.Karte.ToList();
-
-            foreach (var k in listaKarti)
+            Karta karta = new Karta()
             {
-                if (k.ApplicationUserId == id)
-                {
-                    karta = k;
-                    break;
-                }
-            }
+                Cekirana = false,
+                Tip = "Dnevna",
+                VaziDo = DateTime.UtcNow.AddDays(1),
+                ApplicationUserId = id,
+                CenaKarteId = 4,
+                idTransakcije = idTransakcije
+            };
 
-            karta.idTransakcije = idTransakcije;
-            db.Entry(karta).State = EntityState.Modified;
+            db.Karte.Add(karta);
 
             try
             {
                 db.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException db)
             {
                 return NotFound();
             }
