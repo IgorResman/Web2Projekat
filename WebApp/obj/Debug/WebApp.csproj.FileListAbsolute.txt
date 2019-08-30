@@ -1658,3 +1658,4 @@ D:\WEB-FINAL\Jgsp-\WebApp\obj\Debug\WebApp.csproj.CopyComplete
 D:\WEB-FINAL\Jgsp-\WebApp\obj\Debug\WebApp.dll
 D:\WEB-FINAL\Jgsp-\WebApp\obj\Debug\WebApp.pdb
 D:\WEB-FINAL\Jgsp-\WebApp\obj\Debug\WebApp.Migrations.SeedingDB.resources
+D:\WEB-FINAL\Jgsp-\WebApp\obj\Debug\WebApp.csprojAssemblyReference.cache

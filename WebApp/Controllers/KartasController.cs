@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApp.Models;
@@ -51,116 +52,124 @@ namespace WebApp.Controllers
             List<Karta> karte = Db.Karta.GetAll().ToList();
             //var user = UserManager.FindByName(IdKorisnika);
 
-            string odgovor = "";
-            foreach(Karta k1 in karte)
+            string retVal = String.Empty;
+
+            karte.ForEach(x =>
             {
-                if(k1.ApplicationUserId == u.Id)//user.Id)
+                if (x.ApplicationUserId.Equals(u.Id))
                 {
-                    karta = k1;
+                    karta = x;
                 }
-            }
-            if (karta == null)
+            });
+            
+            if (karta != null)
             {
-                return NotFound();
+                switch (karta.Tip)
+                {
+                    case "Dnevna":
+                        var datumKarte = karta.VaziDo;
+                        var pocetakSledecegDana = new DateTime(datumKarte.Year, datumKarte.Month, datumKarte.AddDays(1).Day);
+
+                        if (pocetakSledecegDana > DateTime.UtcNow)
+                        {
+                            retVal = "Vazi vam karta";
+                        }
+                        else
+                        {
+                            retVal = "Ne vazi vam karta!";
+                        }
+                        break;
+
+                    case "Mesecna":
+                        datumKarte = karta.VaziDo;
+                        var startOfMonth = new DateTime(datumKarte.Year, datumKarte.Month, 1);
+                        var DaysInMonth = DateTime.DaysInMonth(datumKarte.Year, datumKarte.Month);
+                        var lastDay = new DateTime(datumKarte.Year, datumKarte.Month, DaysInMonth);
+
+                        if (lastDay > DateTime.UtcNow)
+                        {
+                            retVal = "Vazi vam karta";
+                        }
+                        else
+                        {
+                            retVal = "Ne vazi vam karta!";
+                        }
+                        break;
+
+                    case "Godisnja":
+                        var now = karta.VaziDo;
+                        var startOfYear = new DateTime(now.Year, 1, 1);
+                        var nextYear = new DateTime(startOfYear.AddYears(1).Year, 1, 1);
+
+                        if (nextYear > DateTime.UtcNow)
+                        {
+                            retVal = "Vazi vam karta";
+                        }
+                        else
+                        {
+                            retVal = "Ne vazi vam karta!";
+                        }
+                        break;
+
+                    case "Vremenska":
+                        var vremeKarte = karta.VaziDo.Hour;
+                        var nextHour = vremeKarte + 1;
+
+                        if (nextHour > DateTime.UtcNow.Hour)
+                        {
+                            retVal = "Vazi vam karta";
+                        }
+                        else
+                        {
+                            retVal = "Ne vazi vam karta!";
+                        }
+                        break;
+                    default:
+                        retVal = "Ne vazi vam karta!";
+                        break;
+                }
+
+                return Ok(retVal);
             }
             else
             {
-                if (karta.Tip == "Dnevna") //&& (DateTime.UtcNow < karta.VaziDo.AddDays(1)))
-                {
-
-                    var datumKarte = karta.VaziDo;
-                    var pocetakSledecegDana = new DateTime(datumKarte.Year, datumKarte.Month, datumKarte.AddDays(1).Day);
-
-                    if(pocetakSledecegDana > DateTime.UtcNow)
-                    {
-                        odgovor = "Vazi vam karta";
-                    }
-                    else
-                    {
-                        odgovor = "Ovom korisniku ne vazi karta, hapsi stoku!";
-                    }
-                }
-                else if (karta.Tip == "Mesecna") //&& (DateTime.UtcNow < karta.VaziDo.AddMonths(1)))
-                {
-                    var datumKarte = karta.VaziDo;
-                    var startOfMonth = new DateTime(datumKarte.Year, datumKarte.Month, 1);
-                    var DaysInMonth = DateTime.DaysInMonth(datumKarte.Year, datumKarte.Month);
-                    var lastDay = new DateTime(datumKarte.Year, datumKarte.Month, DaysInMonth);
-
-                    if (lastDay > DateTime.UtcNow)
-                    {
-                        odgovor = "Vazi vam karta";
-                    }
-                    else
-                    {
-                        odgovor = "Ovom korisniku ne vazi karta, hapsi stoku!";
-                    }
-                }
-                else if (karta.Tip == "Godisnja") //&& (DateTime.UtcNow < karta.VaziDo.AddYears(1)))
-                {
-                    var now = karta.VaziDo;
-                    var startOfYear = new DateTime(now.Year, 1, 1);
-                    var nextYear = new DateTime(startOfYear.AddYears(1).Year, 1, 1);
-
-                    if (nextYear > DateTime.UtcNow)
-                    {
-                        odgovor = "Vazi vam karta";
-                    }
-                    else
-                    {
-                        odgovor = "Ovom korisniku ne vazi karta, hapsi stoku!";
-                    }
-                }
-                else if (karta.Tip == "Vremenska") //&& (DateTime.UtcNow < karta.VaziDo.AddHours(1)))
-                {
-
-                    var vremeKarte = karta.VaziDo.Hour;
-                    var nextHour = vremeKarte + 1;
-
-                    if (nextHour > DateTime.UtcNow.Hour)
-                    {
-                        odgovor = "Vazi vam karta";
-                    }
-                    else
-                    {
-                        odgovor = "Ovom korisniku ne vazi karta, hapsi stoku!";
-                    }
-                }
-                else
-                {
-                    odgovor = "Ovom korisniku ne vazi karta, hapsi stoku!";
-                }
-
+                return NotFound();
             }
-            return Ok(odgovor);
         }
+
         // GET: api/Kartas/5
         [AllowAnonymous]
         [ResponseType(typeof(string))]
         [Route("GetKarta/{tipKarte}/{tipKupca}")]
-        public IHttpActionResult GetKartaCena(string tipKarte,string tipKupca)
+        public IHttpActionResult GetKartaCena(string tipKarte, string tipKupca)
         {
             List<CenaKarte> karte = Db.CenaKarte.GetAll().ToList();
-            List<Cenovnik> cenovnici = Db.Cenovnik.GetAll().ToList();
 
-            Cenovnik cen = Db.Cenovnik.GetAll().Where(t => t.VaziDo > DateTime.UtcNow && t.VaziOd < DateTime.UtcNow).FirstOrDefault();
-
-            string odg = "Cena zeljene karte je : ";
-            foreach(CenaKarte k in karte)
-            {
-                if(k.TipKarte == tipKarte && tipKupca == k.TipKupca && cen.IdCenovnik == k.CenovnikId)
-                {
-                    odg += k.Cena.ToString();
-                }
-            }
-            odg += " rsd.";
             if (karte == null)
             {
                 return NotFound();
             }
 
-            return Ok(odg);
+            List<Cenovnik> cenovnici = Db.Cenovnik.GetAll().ToList();
+
+            Cenovnik cen = Db.Cenovnik.GetAll().Where(t => t.VaziDo > DateTime.UtcNow && t.VaziOd < DateTime.UtcNow).FirstOrDefault();
+
+            StringBuilder retVal = new StringBuilder();
+            retVal.Append("Cena zeljene karte je : ");
+
+            karte.ForEach(x =>
+            {
+                if (x.TipKarte == tipKarte && tipKupca == x.TipKupca && cen.IdCenovnik == x.CenovnikId)
+                {
+                    retVal.Append(x.Cena.ToString());
+                }
+            });
+
+            retVal.Append(" RSD.");
+
+            return Ok(retVal.ToString());
         }
+
         [AllowAnonymous]
         [ResponseType(typeof(string))]
         [Route("GetKartaPromenaCene/{tipKarte}/{tipKupca}/{cena}")]
@@ -168,31 +177,34 @@ namespace WebApp.Controllers
         {
             //POTREBNO JE PRAVITI NOVI CENOVNIK KADA SE PROMENI CENA KARTE
             List<CenaKarte> karte = Db.CenaKarte.GetAll().ToList();
-            List<Cenovnik> cenovnici = Db.Cenovnik.GetAll().ToList();
-            Cenovnik cen = Db.Cenovnik.GetAll().Where(t => t.VaziDo > DateTime.UtcNow && t.VaziOd < DateTime.UtcNow).FirstOrDefault();
-
-            string odg = "Cena zeljene karte je bila : ";
-            foreach (CenaKarte k in karte)
-            {
-                if (k.TipKarte == tipKarte && tipKupca == k.TipKupca && cen.IdCenovnik == k.CenovnikId)
-
-                {
-                    odg += k.Cena.ToString();
-                    k.Cena = cena;
-                    Db.CenaKarte.Update(k);
-                   
-                    Db.Complete();
-                }
-            }
-            odg += " rsd.";
 
             if (karte == null)
             {
                 return NotFound();
             }
-            odg += "Sada je promenjena na : " + cena.ToString() + " rsd.";
-        
-            return Ok(odg);
+
+            List<Cenovnik> cenovnici = Db.Cenovnik.GetAll().ToList();
+            Cenovnik cen = Db.Cenovnik.GetAll().Where(t => t.VaziDo > DateTime.UtcNow && t.VaziOd < DateTime.UtcNow).FirstOrDefault();
+
+            StringBuilder retVal = new StringBuilder();
+            retVal.Append("Cena zeljene karte je bila: ");
+            karte.ForEach(x =>
+            {
+                if (x.TipKarte == tipKarte && tipKupca == x.TipKupca && cen.IdCenovnik == x.CenovnikId)
+                {
+                    retVal.Append(x.Cena.ToString());
+                    x.Cena = cena;
+                    Db.CenaKarte.Update(x);
+
+                    Db.Complete();
+                }
+            });
+            
+            retVal.Append(" RSD.");
+
+            retVal.Append("Sada je promenjena na : " + cena.ToString() + " rsd.");
+
+            return Ok(retVal.ToString());
         }
         [AllowAnonymous]
         [ResponseType(typeof(Profil))]
@@ -203,19 +215,24 @@ namespace WebApp.Controllers
             var userManager = new UserManager<ApplicationUser>(userStore);
             var id = User.Identity.GetUserId();
             ApplicationUser u = userManager.FindById(id);
+
             if (u == null)
             {
-                return Ok();
+                return NotFound();
             }
-            Profil p = new Profil();
-            p.Name = u.Name;
-            p.Password = u.Password;
-            p.Surname = u.Surname;
-            p.Tip = u.Tip;
-            p.Datum = u.Datum;
-            p.ConfirmPassword = u.ConfirmPassword;
-            p.Email = u.Email;
-            p.UserName = u.UserName;
+
+            Profil p = new Profil()
+            {
+                Name = u.Name,
+                Password = u.Password,
+                Surname = u.Surname,
+                Tip = u.Tip,
+                Datum = u.Datum,
+                ConfirmPassword = u.ConfirmPassword,
+                Email = u.Email,
+                UserName = u.UserName
+            };
+
             return Ok(p);
         }
         [AllowAnonymous]
@@ -226,10 +243,12 @@ namespace WebApp.Controllers
             var userManager = new UserManager<ApplicationUser>(userStore);
             var id = User.Identity.GetUserId();
             ApplicationUser u = userManager.FindById(id);
+
             if (u == null)
             {
-                return Ok();
+                return NotFound();
             }
+
             u.Email = model.Email;
             u.Datum = model.Date;
             u.ConfirmPassword = model.ConfirmPassword;
@@ -238,7 +257,7 @@ namespace WebApp.Controllers
             u.UserName = model.Email;
             u.Surname = model.Surname;
             u.Tip = model.Tip;
-      
+
             db.Entry(u).State = EntityState.Modified;
 
             db.SaveChanges();
@@ -251,12 +270,12 @@ namespace WebApp.Controllers
         {
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
-     
+
             Karta novaKarta = new Karta();
             string tipKorisnika;
             var id = User.Identity.GetUserId();
             ApplicationUser u = userManager.FindById(id);
-          
+
             if (u == null)
             {
                 tipKorisnika = "Obican";
@@ -265,70 +284,55 @@ namespace WebApp.Controllers
             {
                 tipKorisnika = u.Tip;
             }
+
             float cena;
-            string povratna = "";
+            StringBuilder retVal = new StringBuilder();
+
             List<Cenovnik> cenovnici = Db.Cenovnik.GetAll().ToList();
             Cenovnik cen = Db.Cenovnik.GetAll().Where(t => t.VaziDo > DateTime.UtcNow && t.VaziOd < DateTime.UtcNow && t.Aktuelan == true).FirstOrDefault();
+            CenaKarte ck = Db.CenaKarte.GetAll().Where(t => t.TipKarte == tipKarte && t.TipKupca == tipKorisnika && t.CenovnikId == cen.IdCenovnik).FirstOrDefault();
 
-
-
-            CenaKarte ck = Db.CenaKarte.GetAll().Where(t => t.TipKarte == tipKarte && t.TipKupca == tipKorisnika && t.CenovnikId ==cen.IdCenovnik).FirstOrDefault();
-           // novaKarta.CenaKarte = ck;
             novaKarta.CenaKarteId = ck.IdCenaKarte;
-
             novaKarta.Tip = tipKarte;
-       
-     
-            //novaKarta.ApplicationUserId = User.Identity.GetUserId();
             novaKarta.VaziDo = DateTime.UtcNow;
+
             if (u != null && u.Odobren == true)
             {
                 novaKarta.ApplicationUserId = id;
-                // novaKarta.ApplicationUser = u;
-                //novaKarta.ApplicationUser = userManager.FindById(id);
-                // u.Karte.Add(novaKarta);
                 cena = ck.Cena;
-                povratna = "Uspesno ste kupili " + tipKarte + "-u" + " kartu, po ceni od |" + cena.ToString() + "| rsd, hvala vam, vas gsp!";
-
-
+                retVal.Append("Uspesno ste kupili " + tipKarte + "-u" + " kartu, po ceni od |" + cena.ToString() + "| rsd, hvala vam, vas gsp!");
                 novaKarta.Cekirana = true;
+
                 db.Dispose();
-
                 Db.Karta.Add(novaKarta);
-
                 Db.Complete();
             }
             else if (u != null && u.Odobren == false)
             {
-                povratna = "Kontrolor vas nije prihvatio";
+                retVal.Append("Kontrolor vas nije prihvatio");
             }
             else if (u == null)
             {
-                string email = mejl.Replace('-', '.');
-                MailMessage mail = new MailMessage("coajovic.web@gmail.com", email);
-                SmtpClient client = new SmtpClient();
-                client.Port = 587;
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.UseDefaultCredentials = true;
-                client.Credentials = new NetworkCredential("coajovic.web@gmail.com", "qcfu xays czwu bopw");    //iymr rzbn gpfs bpbg
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.EnableSsl = true;
-                client.Host = "smtp.gmail.com";
-             
-                mail.Subject = "JGSP";
-                mail.Body = $"Uspesno ste kupili kartu za {DateTime.Now}. {Environment.NewLine} Broj karte: {novaKarta.IdKarte} {Environment.NewLine}Hvala na poverenju, JGSP!";
+
+                string mailSubject = "JGSP";
+                string mailBody = $"Uspesno ste kupili kartu: {novaKarta.IdKarte} {Environment.NewLine} u {DateTime.UtcNow} {Environment.NewLine} Hvala na poverenju, JGSP!";
                 try
                 {
-                    client.Send(mail);
+                    try
+                    {
+                        MailHelper.Send(mejl + "@gmail.com", mailSubject, mailBody);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        throw;
+                    }
+
                     cena = ck.Cena;
-                    povratna = "Uspesno ste kupili " + tipKarte + "-u" + " kartu, po ceni od |" + cena.ToString() + "| rsd, hvala vam, vas gsp!";
-
-
+                    retVal.Append("Uspesno ste kupili " + tipKarte + "-u" + " kartu, po ceni od |" + cena.ToString() + "| rsd, hvala vam, vas gsp!");
                     novaKarta.Cekirana = true;
+
                     db.Dispose();
-
                     Db.Karta.Add(novaKarta);
-
                     Db.Complete();
                 }
                 catch (Exception e)
@@ -337,13 +341,13 @@ namespace WebApp.Controllers
                     return InternalServerError(e);
                 }
             }
-      
+
             if (ck == null)
             {
                 return NotFound();
             }
-       
-            return Ok(povratna);
+
+            return Ok(retVal.ToString());
         }
 
         // PUT: api/Kartas/5
@@ -424,7 +428,8 @@ namespace WebApp.Controllers
 
             Karta karta = new Karta();
             List<Karta> listaKarti = db.Karte.ToList();
-            foreach(var k in listaKarti)
+
+            foreach (var k in listaKarti)
             {
                 if (k.ApplicationUserId == id)
                 {
@@ -434,7 +439,6 @@ namespace WebApp.Controllers
             }
 
             karta.idTransakcije = idTransakcije;
-            
             db.Entry(karta).State = EntityState.Modified;
 
             try
@@ -446,22 +450,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            return Ok("sacuvano");
+            return Ok("Sacuvano");
         }
-
-        //[AllowAnonymous]
-        //[ResponseType(typeof(string))]
-        //[Route("PostTransakcijaID/{idTransakcije}")]
-        //public IHttpActionResult PostTransakcija(string idTransakcije)
-        //{
-        //    //proveriti korisnika i za njegovu poslednju kartu dodati id transakcije u tabelu
-        //    var userStore = new UserStore<ApplicationUser>(db);
-        //    var userManager = new UserManager<ApplicationUser>(userStore);
-        //    var id = User.Identity.GetUserId();
-        //    ApplicationUser u = userManager.FindById(id);
-
-        //    return Ok("sacuvano");
-        //}
 
         protected override void Dispose(bool disposing)
         {
