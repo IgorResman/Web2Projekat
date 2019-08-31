@@ -19,7 +19,7 @@
           <fieldset class="clearfix">
 
             <br>
-            <p class="paragraf_text">Id:</p><input type="number" formControlName="id" required><br>
+            <p class="paragraf_text">Id:</p><input class="form-control" type="number" formControlName="id" required><br>
             <!-- JS because of IE support; better: placeholder="Username" -->
             <br><button id="ButtonsHomePage" (click)="Delete()">Obrisi cenovnik!</button>
 
@@ -33,9 +33,9 @@
         <div class="clearfix"></div>
       </div>
       <div class="clearfix"></div>
-      <div class="logo"> JGSP
+      <div class="logo">
         <div class="clearfix"></div>
-        <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
+        <p><span class="fa "></span><a class="btn btn-lg btn-primary" routerLink="/home">Home!</a></p>
       </div>
     </div>
   </div>

@@ -18,7 +18,7 @@ export class OdobriMejlComponent implements OnInit {
 
   ngOnInit() {
     this.userService.GetMails().subscribe((stanicesa) => {
-      // this.selectedMail = stanicesa[0];
+      this.selectedMail = stanicesa[0];
       this.mejloviZaView = stanicesa;
       err => console.log(err);
     });

@@ -56,7 +56,7 @@ namespace WebApp.Controllers
 
             karte.ForEach(x =>
             {
-                if (x.ApplicationUserId.Equals(u.Id))
+                if (x.ApplicationUserId != null && x.ApplicationUserId.Equals(u.Id))
                 {
                     karta = x;
                 }

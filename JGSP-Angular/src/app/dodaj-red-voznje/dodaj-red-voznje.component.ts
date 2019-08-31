@@ -19,7 +19,6 @@ export class DodajRedVoznjeComponent implements OnInit {
 
   constructor(private linijaService: LinijaService, private redVoznjeService: RedVoznjeService, private fb: FormBuilder) { }
   redGroup = this.fb.group({
-
     dan: ['', Validators.required],
     linija: ['', Validators.required],
     red: ['', Validators.required],
@@ -27,7 +26,13 @@ export class DodajRedVoznjeComponent implements OnInit {
 
   ngOnInit() {
     this.linijaService.GetLines().subscribe((linijesabekenda) => {
+      // this.redGroup.controls['dan'].value = 'Radni';
       this.linijeZaView = linijesabekenda;
+      this.redGroup.setValue({
+        dan: 'Radni',
+        linija: '1',
+        red: ''
+      });
       err => console.log(err);
     });
   }

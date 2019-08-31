@@ -15,7 +15,7 @@
     <div class="middle">
       <div id="login">
 
-        <p class="paragraf_text">Linija:<br>
+        <p class="paragraf_text btn btn-success">Linija:<br>
           <select id="ButtonsHomePage" [(ngModel)]="selectedLine" (change)="onSelectionChangeNumber($event)">
             <option value="">-- Izaberi liniju --</option>
             <option *ngFor="let lin of linijeZaView" [value]="lin">
@@ -29,7 +29,7 @@
         <p><span class="fa "></span><button id="ButtonsHomePage" (click)="OnGetPolasci()">Prati</button></p>
         <p><span class="fa "></span><button id="ButtonsHomePage" (click)="Stop()">Prekini</button></p>
         <br>
-        <p class="paragraf_text">
+        <p class="paragraf_text btn btn-success">
           Pratite kretanje autobusa
         </p>
         <!-- <button (click)="JsonParsiranje()" >Json</button> -->
@@ -49,7 +49,7 @@
           [iconUrl]="polylineMoje.icon"></agm-marker>
       </agm-map>
     </div>
-    <p><span class="fa "></span><a id="ButtonsHomePage" routerLink="/home">Home!</a></p>
+    <p><a class="btn btn-primary" routerLink="/home">Home!</a></p>
     <br>
   </div>
   <br>
