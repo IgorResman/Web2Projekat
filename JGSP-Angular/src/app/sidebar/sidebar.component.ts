@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 export class SidebarComponent implements OnInit {
   verifikovan: string;
   role: any;
-  bul: boolean
   constructor(private userService: UserService, private ruter: Router) { }
 
   ngOnInit() {

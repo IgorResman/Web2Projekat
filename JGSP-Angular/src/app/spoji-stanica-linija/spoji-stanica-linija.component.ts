@@ -18,7 +18,6 @@ export class SpojiStanicaLinijaComponent implements OnInit {
   constructor(private linijaService: LinijaService, private stanicaService: StanicaService, private fb: FormBuilder) { }
 
   ngOnInit() {
-
     this.linijaService.GetLines().subscribe((linijesabekenda) => {
       this.linijeZaView = linijesabekenda;
       err => console.log(err);

@@ -55,12 +55,6 @@ export class RegistracijaComponent implements OnInit {
     console.log(this.slika);
   }
 
-  sendWithImg() {
-    //poslati post ili get metodom 
-    // const fData : FormData = new FormData();
-    // fData.append('Img', this.slika, this.slika.name);
-    // console.log(fData)
-    // this.http.regImg(fData).subscribe();
-  }
+  sendWithImg() { }
 
 }

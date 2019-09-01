@@ -116,7 +116,6 @@ export class LokacijaVozilaComponent implements OnInit {
       //this.lokacijaServis.notificationReceived.subscribe(l => this.onNotification(l));
       //  this.notifForBL.StartTimer(); 
     }
-
   }
 
   OnGetPolasci() {
@@ -138,6 +137,4 @@ export class LokacijaVozilaComponent implements OnInit {
     this.polylineMoje = new Polyline([], 'blue', null);
     this.markeri = [];
   }
-
 }
-

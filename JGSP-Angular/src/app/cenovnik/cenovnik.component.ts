@@ -19,7 +19,6 @@ export class CenovnikComponent implements OnInit {
   TicketPrice() {
     this.kartaService.GetTicketPrice(this.tip, this.tipPutnika).subscribe((cena) => {
       this.cena = cena;
-
       err => console.log(err);
     });
   }

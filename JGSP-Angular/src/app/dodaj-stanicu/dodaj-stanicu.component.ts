@@ -17,9 +17,7 @@ export class DodajStanicuComponent implements OnInit {
 
   constructor(private linijaService: LinijaService, private stanicaService: StanicaService, private fb: FormBuilder) { }
   StanicaGroup = this.fb.group({
-
     adresa: ['', Validators.required],
-
     naziv: ['', Validators.required],
     x: ['', Validators.required],
     y: ['', Validators.required],

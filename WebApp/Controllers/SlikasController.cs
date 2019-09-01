@@ -51,22 +51,7 @@ namespace WebApp.Controllers
                     var userManager = new UserManager<ApplicationUser>(userStore);
                     ApplicationUser user = userManager.FindByName(username);
                     //Sacuvati sliku u bazi i povezati je sa registrovanim userom
-
-
-                    //Passenger passenger = UnitOfWork.PassengerRepository.Get(id);
-
-                    //if (passenger == null)
-                    //{
-                    //    return BadRequest("User does not exists.");
-                    //}
-
-                    //if (passenger.ImageUrl != null)
-                    //{
-                    //    File.Delete(HttpContext.Current.Server.MapPath("~/UploadFile/" + passenger.ImageUrl));
-                    //}
-
-
-
+                    
                     var postedFile = httpRequest.Files[file];
                     string fileName = postedFile.FileName;
                     var filePath = HttpContext.Current.Server.MapPath("~/SlikeKorisnika/" + fileName);

@@ -11,14 +11,13 @@ import {
 })
 export class AuthGuardControlor implements CanActivate, CanActivateChild {
   constructor(private router: Router) { }
-  role : any;
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {    
+  role: any;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let jwtData = localStorage.jwt.split('.')[1]
     let decodedJwtJsonData = window.atob(jwtData)
     let decodedJwtData = JSON.parse(decodedJwtJsonData)
 
-
-      this.role = decodedJwtData.nameid
+    this.role = decodedJwtData.nameid
 
     if (this.role === 'Kontrolor') {
       return true;
